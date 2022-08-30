@@ -3,29 +3,32 @@
                   <thead>
                   <tr>
                     <th>nama</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Alamat</th>
+                    <th>No Telpon</th>
+                    <th>ACTION</th>
+                    <th>TIMESHEET</th>
+                    
                   </tr>
                   </thead>
                   <tbody>
+                  <?php foreach($karyawan as $dt): ?>
                   <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 4.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td> 4</td>
-                    <td>X</td>
+                    <td><?php echo $dt['nama_karyawan'];?></td>
+                    <td><?php echo $dt['alamat'];?></td>
+                    <td><?php echo $dt['no_telpon'];?></td>
+                    <td>
+								      <a class="btn btn-warning btn-xs" href="<?php echo site_url("dashboard/index")."/". $dt['id_karyawan']; ?>"><span class="glyphicon glyphicon-edit"></span></a>
+								      <a class="btn btn-danger btn-xs" data-href="<?php echo site_url("dashboard/index")."/". $dt['id_karyawan'];?>" data-toggle="modal" data-target="#confirm-delete" href="#"><span class="glyphicon glyphicon-remove"></span></a>
+						      	</td>
                   </tr>
+                  <?php endforeach ?>
                   <tfoot>
                   <tr>
                     <th>nama</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Alamat</th>
+                    <th>No Telpon</th>
+                    <th>ACTION</th>
+                    <th>TIMESHEET</th>
                   </tr>
                   </tfoot>
                 </table>
