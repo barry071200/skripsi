@@ -10,7 +10,7 @@ class Dashboard extends CI_Controller
   public function index()
   {
     $this->load->model("Karyawan_model");
-    $data['karyawan'] = $this->Karyawan_model->index()->result_array();
+    $data['karyawan'] = $this->Karyawan_model->ambil()->result_array();
 
     $data['judul'] = "Tabel Contoh";
     $data['layout'] = "conten";

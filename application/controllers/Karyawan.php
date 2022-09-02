@@ -20,7 +20,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Karyawan extends CI_Controller
 {
-    
+
   public function __construct()
   {
     parent::__construct();
@@ -32,18 +32,43 @@ class Karyawan extends CI_Controller
     $data['karyawan'] = $this->karyawan_model->ambil()->result_array();
     $data['judul'] = "Tabel Karyawan";
     $data['layout'] = "karyawan/index";
-		$this->load->view('template', $data);
+    $this->load->view('template', $data);
   }
 
   public function tambah()
   {
-    $data['judul'] = "Tambah Karyawan";
-    $data['layout'] = "karyawan/tambah";
-		$this->load->view('template', $data);
+    $this->load->model('karyawan_model');
+    $data = array();
+    $post = $this->input->post();
+    $data['nama_karyawan'] = $post['nama_karyawan'];
+    $data['alamat'] = $post['alamat'];
+    $data['no_telpon'] = $post['no_telpon'];
+    $data['tgl_lahir'] = $post['tgl_lahir'];
+    $this->karyawan_model->tambah($data);
+    redirect('karyawan/index');
   }
-
+  public function delete($id)
+  {
+    $this->load->model("karyawan_model");
+    $this->karyawan_model->hapus_data($id);
+    redirect('karyawan/index');
+  }
+  public function edit()
+  {
+    $data = array();
+    $this->load->model('karyawan_model');
+    $post = $this->input->post();
+    $id = $post['id_karyawan'];
+    $data['nama_karyawan'] = $post['nama_karyawan'];
+    $data['alamat'] = $post['alamat'];
+    $data['no_telpon'] = $post['no_telpon'];
+    $data['tgl_lahir'] = $post['tgl_lahir'];
+    $this->karyawan_model->ubah_data($id, $data);
+    $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
+    redirect('karyawan/index');
+    
 }
-
+}
 
 /* End of file Karyawan.php */
 /* Location: ./application/controllers/Karyawan.php */

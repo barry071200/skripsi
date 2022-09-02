@@ -1,9 +1,9 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  *
- * Model Karyawan_model
+ * Model Unit_model
  *
  * This Model for ...
  * 
@@ -16,8 +16,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *
  */
 
-class Karyawan_model extends CI_Model
-{
+class Unit_model extends CI_Model {
 
   // ------------------------------------------------------------------------
 
@@ -32,31 +31,33 @@ class Karyawan_model extends CI_Model
   // ------------------------------------------------------------------------
   public function ambil()
   {
-    $this->db->select('*');
-    $this->db->from('karyawan');
-    return $this->db->get('');
+   return $this->db->get('unit');
+  
   }
-  public function tambah($data)
+  public function tambah ($data)
   {
-    $tabel = "karyawan";
+    $tabel  = 'unit';
     $this->db->insert($tabel, $data);
-  }
-  public function hapus_data($id)
-  {
-    $this->db->where('id_karyawan', $id);
-    $this->db->delete('karyawan');
+  
   }
   public function ubah_data($id, $data)
   {
-    $this->db->where('id_karyawan', $id);
-		$this->db->update('karyawan', $data);
+    $this->db->where('id_unit', $id);
+		$this->db->update('unit', $data);
     
   }
+  public function hapus_data($id)
+  {
+    $this->db->where('id_unit', $id);
+    $this->db->delete('unit');
+  }
+
+
 
 
   // ------------------------------------------------------------------------
 
 }
 
-/* End of file Karyawan_model.php */
-/* Location: ./application/models/Karyawan_model.php */
+/* End of file Unit_model.php */
+/* Location: ./application/models/Unit_model.php */
