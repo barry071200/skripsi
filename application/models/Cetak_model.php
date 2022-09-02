@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  *
- * Model Karyawan_model
+ * Model Cetak_model
  *
  * This Model for ...
  * 
@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-class Karyawan_model extends CI_Model {
+class Cetak_model extends CI_Model {
 
   // ------------------------------------------------------------------------
 
@@ -29,17 +29,17 @@ class Karyawan_model extends CI_Model {
 
 
   // ------------------------------------------------------------------------
-  public function ambil()
+  public function index()
   {
     $this->db->select('*');
-    $this->db->from('karyawan');
+    $this->db->from('timesheet, karyawan');
+    $this->db->join('unit', 'where timesheet.id_karyawan = karyawan.id_karyawan AND timesheet.id_unit = unit.id_unit');
     return $this->db->get('');
   }
-  
 
   // ------------------------------------------------------------------------
 
 }
 
-/* End of file Karyawan_model.php */
-/* Location: ./application/models/Karyawan_model.php */
+/* End of file Cetak_model.php */
+/* Location: ./application/models/Cetak_model.php */
