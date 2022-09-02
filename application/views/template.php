@@ -173,17 +173,25 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="fa fa-edit"></i>
               <p>
-                Dashboard
+                MASTER
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="<?php echo site_url('timesheet')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>TIMESHEET</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
                 <a href="<?php echo site_url('karyawan')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Karyawan</p>
+                  <p>KARYAWAN</p>
                 </a>
               </li>
             </ul>
@@ -191,7 +199,7 @@
               <li class="nav-item">
                 <a href="<?php echo site_url('unit')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>unit</p>
+                  <p>UNIT</p>
                 </a>
               </li>
             </ul>
