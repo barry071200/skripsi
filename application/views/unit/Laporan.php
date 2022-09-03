@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 <div class="card-body">
     <form>
-        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">TAMBAH UNIT</a></th>
+        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">Tambah Unit</a></th>
     </form>
     <br>
 
@@ -10,11 +10,16 @@
             <tr>
                 <th>NO</th>
                 <th>NAMA UNIT</th>
-                <th>PERUSAHAAN</th>
-                <th>TAHUN</th>
-                <th>HARGA</th>
+                <th>NAMA OPERATOR</th>
+                <th>TANGGAL</th>
+                <th>HM AWAL</th>
+                <th>HM AKHIR</th>
+                <th>TOTAL JAM</th>
+                <th>HARGA SEWA</th>
+                <th>TOTAL HARGA</th>
+                <th>KETERANGAN</th>
                 <th>ACTION</th>
-                <th>TIMESHEET</th>
+
 
             </tr>
         </thead>
@@ -24,29 +29,40 @@
                 <tr>
                     <td><?php echo $no++; ?></td>
                     <td><?php echo $dt['nama_unit']; ?></td>
-                    <td><?php echo $dt['perusahaan']; ?></td>
-                    <td><?php echo $dt['tahun']; ?></td>
+                    <td><?php echo $dt['nama_karyawan']; ?></td>
+                    <td><?php echo $dt['tanggal']; ?></td>
+                    <td><?php echo $dt['hm_awal']; ?></td>
+                    <td><?php echo $dt['hm_akhir']; ?></td>
+                    <td><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?></td>
                     <td><?php echo $dt['harga']; ?></td>
+                    <td><?php echo $dt['harga'] * ($dt['hm_akhir'] - $dt['hm_awal']); ?></td>
+                    <td><?php echo $dt['keterangan']; ?></td>
                     <td>
                         <a class="btn btn-warning" data-toggle="modal" data-target="#ubahunit<?php echo $dt['id_unit']; ?>">Edit</a>
                         <a class="btn btn-danger" href="<?php echo site_url("unit/delete") . "/" . $dt['id_unit']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
                     </td>
-                    <td> <a class="btn btn-success" href="<?php echo site_url("unit/sheet") . "/" . $dt['id_unit']; ?>">SHEET</a></td>
+
                 </tr>
             <?php endforeach ?>
         <tfoot>
-            <tr>
-                <th>NO</th>
-                <th>NAMA UNIT</th>
-                <th>PERUSAHAAN</th>
-                <th>TAHUN</th>
-                <th>HARGA</th>
-                <th>ACTION</th>
-                <th>TIMESHEET</th>
-            </tr>
+            <?php foreach ($sum as $dt) : ?>
+                <tr>
+                    <th colspan="2">TOTAL HARGA SEWA</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>:</th>
+                    <th><?php echo $dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))']; ?></th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+            <?php endforeach ?>
         </tfoot>
     </table>
-    <div class="modal fade" id="tambahunit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!--<div class="modal fade" id="tambahunit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -68,7 +84,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
-
                     </div>
                     </form>
 
@@ -102,7 +117,6 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                             <button type="submit" class="btn btn-primary">Simpan</button>
-
                         </div>
                         </form>
 
@@ -112,5 +126,6 @@
             </div>
         </div>
     <?php endforeach ?>
+    -->
 
 </div>

@@ -37,6 +37,16 @@ class Timesheet_model extends CI_Model
     $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
     return $this->db->get('');
   }
+  public function sum($id){
+    $this->db->from('timesheet, unit');
+		$this->db->select('sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))', FALSE);
+    $this->db->where('unit.id_unit=', $id);
+    $this->db->where('timesheet.id_unit=', $id);
+		$query = $this->db->get('');
+		return($query);
+
+	}
+
 
   // ------------------------------------------------------------------------
 

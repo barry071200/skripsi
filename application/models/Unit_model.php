@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  *
@@ -16,7 +16,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-class Unit_model extends CI_Model {
+class Unit_model extends CI_Model
+{
 
   // ------------------------------------------------------------------------
 
@@ -31,27 +32,31 @@ class Unit_model extends CI_Model {
   // ------------------------------------------------------------------------
   public function ambil()
   {
-   return $this->db->get('unit');
-  
+    return $this->db->get('unit');
   }
-  public function tambah ($data)
+  public function tambah($data)
   {
     $tabel  = 'unit';
     $this->db->insert($tabel, $data);
-  
   }
   public function ubah_data($id, $data)
   {
     $this->db->where('id_unit', $id);
-		$this->db->update('unit', $data);
-    
+    $this->db->update('unit', $data);
   }
   public function hapus_data($id)
   {
     $this->db->where('id_unit', $id);
     $this->db->delete('unit');
   }
-
+  public function sheet($id)
+  {
+    $this->db->select('*');
+    $this->db->from('timesheet, unit');
+    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
+    $this->db->where('unit.id_unit=', $id);
+    return $this->db->get('');
+  }
 
 
 

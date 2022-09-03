@@ -69,6 +69,18 @@ class Unit extends CI_Controller
     $this->Unit_model->hapus_data($id);
     redirect('unit/index');
   }
+  public function sheet($id)
+  {
+    $this->load->model('unit_model');
+    $this->load->model('Timesheet_model');
+    $data['unit'] = $this->unit_model->sheet($id)->result_array();
+    $data['sum'] = $this->Timesheet_model->sum($id)->result_array();
+    //var_dump($data['sum']);
+    //die;
+    $data['layout'] = 'unit/Laporan';
+    $data['judul'] = 'Unit/Timesheet';
+    $this->load->view('template', $data);
+  }
   
 
 }
