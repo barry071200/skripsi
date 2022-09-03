@@ -66,8 +66,15 @@ class Karyawan extends CI_Controller
     $this->karyawan_model->ubah_data($id, $data);
     $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
     redirect('karyawan/index');
-    
-}
+  }
+  public function sheet($id)
+  {
+    $this->load->model('karyawan_model');
+    $data['karyawan'] = $this->karyawan_model->sheet($id)->result_array();
+    $data['layout'] = 'karyawan/Laporan';
+    $data['judul'] = 'karyawan/Timesheet';
+    $this->load->view('template', $data);
+  }
 }
 
 /* End of file Karyawan.php */

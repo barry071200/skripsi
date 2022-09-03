@@ -31,7 +31,7 @@
                         <a class="btn btn-warning" data-toggle="modal" data-target="#ubahkaryawan<?php echo $dt['id_karyawan']; ?>">Edit</a>
                         <a class="btn btn-danger" href="<?php echo site_url("karyawan/delete") . "/" . $dt['id_karyawan']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
                     </td>
-                    <td> <a class="btn btn-success" href="//">SHEET</a></td>
+                    <td> <a class="btn btn-success" href="<?php echo site_url("karyawan/sheet") . "/" . $dt['id_karyawan']; ?>">SHEET</a></td>
                 </tr>
             <?php endforeach ?>
         <tfoot>
