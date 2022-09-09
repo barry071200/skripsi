@@ -1,4 +1,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+<script src="<?= base_url()?>assets/DataTables/DataTables.min.js"></script>
+<link rel="stylesheet" href="<?= base_url()?>assets/DataTables/DataTables.min.css">
+
+
+
 <div class="card-body">
     <form>
         <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahkaryawan" href="<?php echo site_url('karyawan/tambah') ?>">Tambah Karyawan</a></th>
@@ -6,7 +11,7 @@
     <br>
 
     <table id="example1" class="table table-striped">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>NO</th>
                 <th>nama</th>
@@ -34,7 +39,7 @@
                     <td> <a class="btn btn-success" href="<?php echo site_url("karyawan/sheet") . "/" . $dt['id_karyawan']; ?>">SHEET</a></td>
                 </tr>
             <?php endforeach ?>
-        <tfoot>
+       <!-- <tfoot class="table-dark">
             <tr>
                 <th>NO</th>
                 <th>nama</th>
@@ -45,6 +50,7 @@
                 <th>TIMESHEET</th>
             </tr>
         </tfoot>
+            -->
     </table>
     <div class="modal fade" id="tambahkaryawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -112,3 +118,11 @@
     <?php endforeach ?>
 
 </div>
+<script>
+$(document).ready( function () {
+    $('#example1').DataTable();
+} );
+
+
+</script>
+

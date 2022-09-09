@@ -9,11 +9,12 @@ class Dashboard extends CI_Controller
 
   public function index()
   {
-    $this->load->model("Karyawan_model");
-    $data['karyawan'] = $this->Karyawan_model->ambil()->result_array();
+    $this->load->model("dashboard_model");
+    $data['tm'] = $this->dashboard_model->count()->result_array();
+
 
     $data['judul'] = "Tabel Contoh";
-    $data['layout'] = "conten";
+    $data['layout'] = "dashboard";
 		$this->load->view('template', $data);
     
 

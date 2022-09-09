@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+<script src="<?= base_url()?>assets/DataTables/DataTables.min.js"></script>
+<link rel="stylesheet" href="<?= base_url()?>assets/DataTables/DataTables.min.css">
 <div class="card-body">
     <form>
         <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">Tambah Unit</a></th>
@@ -6,7 +8,7 @@
     <br>
 
     <table id="example1" class="table table-striped">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>NO</th>
                 <th>NAMA UNIT</th>
@@ -34,8 +36,8 @@
                     <td><?php echo $dt['hm_awal']; ?></td>
                     <td><?php echo $dt['hm_akhir']; ?></td>
                     <td><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?></td>
-                    <td><?php echo $dt['harga']; ?></td>
-                    <td><?php echo $dt['harga'] * ($dt['hm_akhir'] - $dt['hm_awal']); ?></td>
+                    <td>Rp <?php echo number_format($dt['harga'],0,',','.'); ?></td>
+                    <td>Rp <?php echo number_format($dt['harga'] * ($dt['hm_akhir'] - $dt['hm_awal']),0,',','.'); ?></td>
                     <td><?php echo $dt['keterangan']; ?></td>
                     <td>
                         <a class="btn btn-warning" data-toggle="modal" data-target="#ubahunit<?php echo $dt['id_unit']; ?>">Edit</a>
@@ -54,7 +56,7 @@
                     <th></th>
                     <th></th>
                     <th>:</th>
-                    <th><?php echo $dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))']; ?></th>
+                    <th>Rp <?php echo number_format($dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))'],0,',','.'); ?></th>
                     <th></th>
                     <th></th>
 
@@ -129,3 +131,9 @@
     -->
 
 </div>
+<script>
+$(document).ready( function () {
+    $('#example1').DataTable();
+} );
+
+</script>

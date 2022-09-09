@@ -1,12 +1,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+<script src="<?= base_url() ?>assets/DataTables/DataTables.min.js"></script>
+<link rel="stylesheet" href="<?= base_url() ?>assets/DataTables/DataTables.min.css">
 <div class="card-body">
     <form>
-        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">Tambah Unit</a></th>
+        <th colspan="4"><a class="btn btn-primary" href="<?php echo site_url('timesheet/tambah') ?>">Tambah Timesheet</a></th>
     </form>
     <br>
 
     <table id="example1" class="table table-striped">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>NO</th>
                 <th>NAMA OPERATOR</th>
@@ -48,6 +50,7 @@
                 <th>TANGGAL</th>
                 <th>HM AWAL</th>
                 <th>HM AKHIR</th>
+                <th>TOTAL JAM</th>
                 <th>KETERANGAN</th>
                 <th>ACTION</th>
             </tr>
@@ -120,3 +123,15 @@
     -->
 
 </div>
+<script>
+    var table = $('#example1').DataTable();
+
+    new $.fn.dataTable.Buttons(table, {
+        buttons: [
+            'copy', 'excel', 'pdf'
+        ]
+    });
+
+    table.buttons().container()
+        .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+</script>

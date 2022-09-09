@@ -34,6 +34,12 @@ class Timesheet extends CI_Controller
     $data['judul'] = 'Data Timesheet';
     $this->load->view('template', $data);
   }
+  public function tambah()
+  {
+    $data['layout'] = 'timesheet/manage';
+    $data['judul'] = 'Data Timesheet';
+    $this->load->view('template', $data);
+  }
 
 }
 

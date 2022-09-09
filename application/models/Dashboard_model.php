@@ -29,9 +29,9 @@ class Dashboard_model extends CI_Model {
 
 
   // ------------------------------------------------------------------------
-  public function index()
+  public function count()
   {
-    
+   return $this->db->get('pie');
   }
 
   // ------------------------------------------------------------------------

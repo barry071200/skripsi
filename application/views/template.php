@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="<?= base_url()?>assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url()?>assets/dist/css/adminlte.min.css">
+  <script src="<?= base_url()?>assets/plugins/jquery/jquery.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -239,9 +240,9 @@
 
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
+      <b>Albertus C.P</b> 
     </div>
-    <strong>Copyright &copy; Albertus Cahaya Putra <a href="https://www.cokal.com.au/">Timesheet cokal.com</a>.</strong> All rights reserved.
+    <!--<strong>Copyright &copy; Albertus Cahaya Putra <a href="https://www.cokal.com.au/">Timesheet cokal.com</a>.</strong> All rights reserved.-->
   </footer>
 
   <!-- Control Sidebar -->
@@ -253,12 +254,14 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="<?= base_url()?>assets/plugins/jquery/jquery.min.js"></script>
+
 <!-- Bootstrap 4 -->
 <script src="<?= base_url()?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url()?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <!--<script src="<?= base_url()?>assets/dist/js/demo.js"></script> -->
+
+
 </body>
 </html>
