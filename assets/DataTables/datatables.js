@@ -10405,7 +10405,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aLengthMenu": [ 10, 25, 50, 100 ],
+		"aLengthMenu": [ 15, 25, 50, 100 ],
 	
 	
 		/**
@@ -11399,7 +11399,7 @@
 		 * feature enabled (`lengthChange`) then the end user will be able to override
 		 * this to a custom setting using a pop-up menu.
 		 *  @type int
-		 *  @default 10
+		 *  @default 15
 		 *
 		 *  @dtopt Options
 		 *  @name DataTable.defaults.pageLength
@@ -11411,7 +11411,7 @@
 		 *      } );
 		 *    } )
 		 */
-		"iDisplayLength": 10,
+		"iDisplayLength": 15,
 	
 	
 		/**
@@ -13848,9 +13848,9 @@
 		/**
 		 * Paging display length
 		 *  @type int
-		 *  @default 10
+		 *  @default 15
 		 */
-		"_iDisplayLength": 10,
+		"_iDisplayLength": 15,
 	
 		/**
 		 * Paging start point - aiDisplay index
@@ -15410,7 +15410,7 @@
 					flo = flo.toFixed( precision );
 					d = Math.abs( flo );
 	
-					var intPart = parseInt( d, 10 );
+					var intPart = parseInt( d, 15 );
 					var floatPart = precision ?
 						decimal+(d - intPart).toFixed( precision ).substring( 2 ):
 						'';
@@ -17548,7 +17548,7 @@ $.extend( DateTime.prototype, {
 							// calendar opening immediately
 							setTimeout( function () {
 								that._hide();
-							}, 10 );
+							}, 15 );
 						}
 						else {
 							that._setCalander();
@@ -17990,7 +17990,7 @@ $.extend( DateTime.prototype, {
 		}
 
 		var a = '';
-		var span = 10;
+		var span = 15;
 		var button = function (value, label, className) {
 			// Shift the value for PM
 			if ( count === 12 && typeof value === 'number' ) {

@@ -4,7 +4,7 @@
 
 <div class="card-body">
     <form>
-        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">TAMBAH UNIT</a></th>
+        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">ADD</a></th>
     </form>
     <br>
 
@@ -37,17 +37,7 @@
                     <td> <a class="btn btn-success" href="<?php echo site_url("unit/sheet") . "/" . $dt['id_unit']; ?>">SHEET</a></td>
                 </tr>
             <?php endforeach ?>
-        <tfoot>
-            <tr>
-                <th>NO</th>
-                <th>Nama Unit</th>
-                <th>Perusahaan</th>
-                <th>Tahun</th>
-                <th>Harga/Jam</th>
-                <th>Action</th>
-                <th>TIMESHEET</th>
-            </tr>
-        </tfoot>
+
     </table>
     <div class="modal fade" id="tambahunit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

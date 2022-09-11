@@ -2,9 +2,7 @@
 <script src="<?= base_url() ?>assets/DataTables/DataTables.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/DataTables/DataTables.min.css">
 <div class="card-body">
-<form>
-        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahtimesheet" href="<?php echo site_url('timesheet/tambah') ?>">ADD</a></th>
-    </form>
+
     <br>
 
     <table id="example1" class="table table-striped">
@@ -18,13 +16,16 @@
                 <th>HM AKHIR</th>
                 <th>JUMLAH</th>
                 <th>KETERANGAN</th>
-                <th>ACTION</th>
+                <th>CEK</th>
+                <th>KONFIRMASI</th>
 
 
             </tr>
         </thead>
         <tbody>
             <?php $no = 1;
+            $valid = "DITERIMA";
+            $tValid = "DITOLAK";
             foreach ($timesheet as $dt) : ?>
                 <tr>
                     <td><?php echo $no++; ?></td>
@@ -35,9 +36,12 @@
                     <td><?php echo $dt['hm_akhir']; ?></td>
                     <td><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?> Jam</td>
                     <td><?php echo $dt['keterangan']; ?></td>
+                    <td><?php echo $dt['konfirmasi']; ?></td>
                     <td>
-                        <a class="btn btn-warning" data-toggle="modal" data-target="#ubahunit<?php echo $dt['id_unit']; ?>">Edit</a>
-                        <a class="btn btn-danger" href="<?php echo site_url("timesheet/delete") . "/" . $dt['id_timesheet']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
+                    <form method="post" action="<?php echo site_url("supervisor/cek") ?>">
+                        <a class="btn btn-success"  href="<?php echo site_url("supervisor/cek") . "/" . $dt['id_timesheet']. "/". $valid; ?>">Diterima</a>
+                        <a class="btn btn-warning"  href="<?php echo site_url("supervisor/cek") . "/" . $dt['id_timesheet']. "/". $tValid;?>">Ditolak</a>
+                    </form>
                     </td>
 
                 </tr>
@@ -51,7 +55,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                       <form method="post" action="<?php echo site_url("timesheet/tambah") ?>"> -->
+                        <form method="post" action="<?php echo site_url("timesheet/tambah") ?>"> -->
 
                             <label for="id_unit">ID Unit</label>
                             <input type="text" class="form-control" id="id_unit" name="id_unit" placeholder="Masukan ID Unit">
@@ -77,8 +81,8 @@
             </div>
         </div>
     </div>
-  <!--  <?php $no = 0;
-    foreach ($unit as $dt) : $no++ ?>
+    <!--  <?php $no = 0;
+            foreach ($unit as $dt) : $no++ ?>
         <div class="modal fade" id="ubahunit<?php echo $dt['id_unit']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

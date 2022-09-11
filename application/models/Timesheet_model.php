@@ -38,15 +38,29 @@ class Timesheet_model extends CI_Model
     $this->db->order_by('tanggal', 'asc');
     return $this->db->get('');
   }
-  public function sum($id){
+  public function sum($id)
+  {
     $this->db->from('timesheet, unit');
-		$this->db->select('sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))', FALSE);
+    $this->db->select('sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))', FALSE);
     $this->db->where('unit.id_unit=', $id);
     $this->db->where('timesheet.id_unit=', $id);
-		$query = $this->db->get('');
-		return($query);
+    $query = $this->db->get('');
+    return ($query);
+  }
+  public function tambah($data)
+  {
+    $this->db->insert('timesheet', $data);
+  }
+  public function hapus($id)
+  {
 
-	}
+    $this->db->where('id_timesheet', $id);
+    $this->db->delete('timesheet');
+  }
+
+
+
+
 
 
   // ------------------------------------------------------------------------

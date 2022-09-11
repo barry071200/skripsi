@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="<?= base_url()?>assets/DataTables/DataTables.min.css">
 <div class="card-body">
     <form>
-        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">Tambah Unit</a></th>
+        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">ADD</a></th>
     </form>
     <br>
 
@@ -11,14 +11,14 @@
         <thead class="table-dark">
             <tr>
                 <th>NO</th>
-                <th>NAMA UNIT</th>
-                <th>NAMA OPERATOR</th>
+                <th>UNIT</th>
+                <th>OPERATOR</th>
                 <th>TANGGAL</th>
                 <th>HM AWAL</th>
                 <th>HM AKHIR</th>
-                <th>TOTAL JAM</th>
+                <th>JUMLAH</th>
                 <th>HARGA SEWA</th>
-                <th>TOTAL HARGA</th>
+                <th>TOTAL</th>
                 <th>KETERANGAN</th>
                 <th>ACTION</th>
 

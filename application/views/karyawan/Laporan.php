@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="<?= base_url()?>assets/DataTables/DataTables.min.css">
 <div class="card-body">
     <form>
-        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">Tambah Unit</a></th>
+        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>">ADD</a></th>
     </form>
     <br>
 
@@ -18,7 +18,9 @@
                 <th>HM AKHIR</th>
                 <th>TOTAL JAM</th>
                 <th>KETERANGAN</th>
+                <th>KONFIRMASI</th>
                 <th>ACTION</th>
+
 
 
             </tr>
@@ -35,6 +37,7 @@
                     <td><?php echo $dt['hm_akhir']; ?></td>
                     <td><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?></td>
                     <td><?php echo $dt['keterangan']; ?></td>
+                    <td><?php echo $dt['konfirmasi']; ?></td>
                     <td>
                         <a class="btn btn-warning" data-toggle="modal" data-target="#ubahunit<?php echo $dt['id_unit']; ?>">Edit</a>
                         <a class="btn btn-danger" href="<?php echo site_url("unit/delete") . "/" . $dt['id_unit']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>

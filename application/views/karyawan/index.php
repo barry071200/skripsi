@@ -4,9 +4,10 @@
 
 
 
+
 <div class="card-body">
     <form>
-        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahkaryawan" href="<?php echo site_url('karyawan/tambah') ?>">Tambah Karyawan</a></th>
+        <th colspan="4"><a class="btn btn-primary" data-toggle="modal" data-target="#tambahkaryawan"  href="<?php echo site_url('karyawan/tambah') ?>">ADD</a></th>
     </form>
     <br>
 
@@ -65,7 +66,7 @@
                             <label for="nama_karyawan">Nama Lengkap</label>
                             <input type="text" class="form-control" id="nama_karyawan" name="nama_karyawan" placeholder="Masukan Nama Lengkap">
                             <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan Alamat Karyawan">
+                            <textarea class="form-control"  rows="3" id="alamat" name="alamat"  placeholder="Masukan Alamat Karyawan" ></textarea>
                             <label for="no_telpon">Nomor Telpon</label>
                             <input type="number" class="form-control" rows="3" id="no_telpon" name="no_telpon" placeholder="Masukan Nomor Telpon">
                             <label for="no_telpon">Tanggal Lahir</label>
