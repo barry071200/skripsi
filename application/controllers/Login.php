@@ -29,6 +29,26 @@ class Login extends CI_Controller
   public function index()
   {
     $this->load->view('login');
+
+    
+  }
+  public function cek(){
+    $this->load->model('login_model');
+    $post = $this->input->post();
+    $username = $post['username'];
+    $pw = $post['password'];
+    $status = $this->login_model->cek($username, $pw)->result();
+    if($status==true)
+    {
+      redirect('timesheet/index');
+    } 
+    else
+    {
+    
+      redirect('login/index');
+      echo 'salah';
+    }
+    
   }
 
 }

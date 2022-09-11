@@ -30,6 +30,7 @@ class Karyawan extends CI_Controller
   {
     $this->load->model('karyawan_model');
     $data['karyawan'] = $this->karyawan_model->ambil()->result_array();
+
     $data['judul'] = "Tabel Karyawan";
     $data['layout'] = "karyawan/index";
     $this->load->view('template', $data);
