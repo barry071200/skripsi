@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  *
@@ -16,7 +16,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-class Cetak_model extends CI_Model {
+class Cetak_model extends CI_Model
+{
 
   // ------------------------------------------------------------------------
 
@@ -36,11 +37,10 @@ class Cetak_model extends CI_Model {
     $this->db->join('unit', 'where timesheet.id_karyawan = karyawan.id_karyawan AND timesheet.id_unit = unit.id_unit');
     return $this->db->get('');
   }
-  public function coba(){
+  public function coba()
+  {
 
     return $this->db->get('timesheet');
-    
-
   }
 
   // ------------------------------------------------------------------------

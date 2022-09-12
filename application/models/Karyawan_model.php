@@ -49,8 +49,7 @@ class Karyawan_model extends CI_Model
   public function ubah_data($id, $data)
   {
     $this->db->where('id_karyawan', $id);
-		$this->db->update('karyawan', $data);
-    
+    $this->db->update('karyawan', $data);
   }
   public function sheet($id)
   {

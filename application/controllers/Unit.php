@@ -24,10 +24,14 @@ class Unit extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+    if($this->session->userdata('logged_in') !== TRUE){
+      redirect('login/index');
+    }
   }
 
   public function index()
   {
+    
 
     $this->load->model('Unit_model');
     $data['unit'] = $this->Unit_model->ambil()->result_array();

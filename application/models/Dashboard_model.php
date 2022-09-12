@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  *
@@ -16,7 +16,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-class Dashboard_model extends CI_Model {
+class Dashboard_model extends CI_Model
+{
 
   // ------------------------------------------------------------------------
 
@@ -31,7 +32,7 @@ class Dashboard_model extends CI_Model {
   // ------------------------------------------------------------------------
   public function count()
   {
-   return $this->db->get('pie');
+    return $this->db->get('pie');
   }
 
   // ------------------------------------------------------------------------
