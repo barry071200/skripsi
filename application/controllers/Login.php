@@ -20,7 +20,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
-    
+
   public function __construct()
   {
     parent::__construct();
@@ -29,28 +29,50 @@ class Login extends CI_Controller
   public function index()
   {
     $this->load->view('login');
-
-    
   }
-  public function cek(){
+  public function cek()
+  {
     $this->load->model('login_model');
     $post = $this->input->post();
     $username = $post['username'];
     $pw = $post['password'];
-    $status = $this->login_model->cek($username, $pw)->result();
-    if($status==true)
-    {
-      redirect('timesheet/index');
-    } 
-    else
-    {
-    
-      redirect('login/index');
-      echo 'salah';
-    }
-    
-  }
+    $status = $this->login_model->cek($username, $pw);
 
+    if ($status == true) {
+      $data = $status->row_array();
+      $name = $data['username'];
+      $pass = $data['passsword'];
+      $role = $data['role'];
+      $setdata = array(
+        'username' => $name,
+        'password' => $pass,
+        'role' => $role,
+        'logged_in' => TRUE
+
+      );
+      $this->session->set_userdata($setdata);
+      if ($status == true && $data['role'] == '1') {
+        redirect('timesheet/index');
+      } else {
+        if ($status == true && $data['role'] == '2') {
+
+          redirect('karyawan/index');
+        } else
+        if ($status == true && $data['role'] == '3') {
+          redirect('supervisor/index');
+        }
+        redirect('login/index');
+      }
+    } else {
+
+      redirect('login/index');
+    }
+  }
+  public function logout()
+  {
+    session_destroy();
+    redirect('login/index');
+  }
 }
 
 

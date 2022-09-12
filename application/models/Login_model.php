@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  *
@@ -16,7 +16,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-class Login_model extends CI_Model {
+class Login_model extends CI_Model
+{
 
   // ------------------------------------------------------------------------
 
@@ -31,16 +32,11 @@ class Login_model extends CI_Model {
   // ------------------------------------------------------------------------
   public function cek($username, $pw)
   {
+    $this->db->select('*');
     $this->db->where('username', $username);
     $this->db->where('password', $pw);
     $this->db->from('user');
     return $this->db->get();
-
-    
-      
-    
-    
-
   }
 
   // ------------------------------------------------------------------------

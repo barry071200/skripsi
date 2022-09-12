@@ -20,51 +20,65 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Timesheet extends CI_Controller
 {
-    
+
   public function __construct()
   {
     parent::__construct();
+    if ($this->session->userdata('logged_in') !== TRUE) {
+      redirect('login/index');
+    }
   }
 
   public function index()
   {
-    $this->load->model('Timesheet_model');
-    $data['timesheet'] = $this->Timesheet_model->ambil()->result_array();
-    $data['layout'] = 'timesheet/index';
-    $data['judul'] = 'Data Timesheet';
-    $this->load->view('template', $data);
+    if ($this->session->userdata('role') == '1') {
+      $this->load->model('Timesheet_model');
+      $data['timesheet'] = $this->Timesheet_model->ambil()->result_array();
+      $data['layout'] = 'timesheet/index';
+      $data['judul'] = 'Data Timesheet';
+      $this->load->view('template', $data);
+    } else {
+      redirect('login/index');
+    }
   }
   public function tambah()
   {
-    $this->load->model('timesheet_model');
-    $data = array();
-    $post = $this->input->post();
-    $data['id_karyawan'] = $post['id_karyawan'];
-    $data['tanggal'] = $post['tanggal'];
-    $data['id_unit'] = $post['id_unit'];
-    $data['hm_awal'] = $post['hm_awal'];
-    $data['hm_akhir'] = $post['hm_akhir'];
-    $data['keterangan'] = $post['keterangan'];
-  
-    $this->timesheet_model->tambah($data);
-    redirect('timesheet/index');
+    if ($this->session->userdata('role') == '1') {
+      $this->load->model('timesheet_model');
+      $data = array();
+      $post = $this->input->post();
+      $data['id_karyawan'] = $post['id_karyawan'];
+      $data['tanggal'] = $post['tanggal'];
+      $data['id_unit'] = $post['id_unit'];
+      $data['hm_awal'] = $post['hm_awal'];
+      $data['hm_akhir'] = $post['hm_akhir'];
+      $data['keterangan'] = $post['keterangan'];
+
+      $this->timesheet_model->tambah($data);
+      redirect('timesheet/index');
+    } else {
+      redirect('login/index');
+    }
+    
   }
   public function delete($id)
   {
-    $this->load->model('timesheet_model');
-    $this->timesheet_model->hapus($id);
+    if ($this->session->userdata('role') == '1') {
+      $this->load->model('timesheet_model');
+      $this->timesheet_model->hapus($id);
 
-    redirect('timesheet/index');
-
+      redirect('timesheet/index');
+    } else {
+      redirect('login/index');
+    }
   }
-  public function coba(){
+  public function coba()
+  {
 
     $this->load->model('cetak_model');
     $data = $this->cetak_model->coba()->result();
     var_dump($data);
-    
   }
-
 }
 
 

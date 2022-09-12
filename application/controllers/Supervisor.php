@@ -23,11 +23,16 @@ class Supervisor extends CI_Controller
     
   public function __construct()
   {
+
     parent::__construct();
+    if($this->session->userdata('logged_in') !== TRUE){
+      redirect('login/index');
+    }
   }
 
   public function index()
   {
+    
     $this->load->model('Supervisor_model');
     $data['timesheet'] = $this->Supervisor_model->ambil()->result_array();
     $data['layout'] = 'supervisor/index';

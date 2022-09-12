@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Log in (v2)</title>
+    <title>LOGIN</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -24,7 +24,6 @@
                 <a href="<?= base_url() ?>assets/index2.html" class="h1"><b>TIMESHEET</b></a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Masukan Username & Password</p>
 
                 <form method="post" action="<?php echo site_url("login/cek") ?>">
                     <div class="input-group mb-3">
