@@ -56,7 +56,7 @@
                     <th></th>
                     <th></th>
                     <th>:</th>
-                    <th>Rp <?php echo number_format($dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))'],0,',','.'); ?></th>
+                    <th>Rp <?php if($dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))']!= NULL) echo number_format($dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))'],0,',','.'); ?></th>
                     <th></th>
                     <th></th>
 
