@@ -15,7 +15,9 @@ class Dashboard extends CI_Controller
 
     $data['judul'] = "Tabel Contoh";
     $data['layout'] = "dashboard";
-		$this->load->view('template', $data);
+   $this->load->view('template', $data);
+   
+
     
 
     

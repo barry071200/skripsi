@@ -32,7 +32,8 @@ class Dashboard_model extends CI_Model
   // ------------------------------------------------------------------------
   public function count()
   {
-    return $this->db->get('pie');
+    $this->db->select('(SELECT MAX(ipk) FROM ijazah) AS max', FALSE);
+   return $this->db->get();
   }
 
   // ------------------------------------------------------------------------

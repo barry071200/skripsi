@@ -32,16 +32,17 @@ class Unit extends CI_Controller
   public function index()
   {
     
-
+    if ($this->session->userdata('role') == '1'){
     $this->load->model('Unit_model');
     $data['unit'] = $this->Unit_model->ambil()->result_array();
     $data['layout'] = 'unit/index';
     $data['judul'] = 'Data Unit';
     $this->load->view('template', $data);
   }
+  }
   public function tambah ()
   {
-
+    if ($this->session->userdata('role') == '1'){
     $this->load->model('unit_model');
     $data = array();
     $post = $this->input->post();
@@ -51,9 +52,11 @@ class Unit extends CI_Controller
     $data['harga'] = $post['harga'];
     $this->unit_model->tambah($data);
     redirect('unit/index');
+    }
   }
   public function edit()
   {
+    if ($this->session->userdata('role') == '1'){
     $data = array();
     $this->load->model('Unit_model');
     $post = $this->input->post();
@@ -65,13 +68,15 @@ class Unit extends CI_Controller
     $this->Unit_model->ubah_data($id, $data);
     $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
     redirect('unit/index');
+    }
   }
   public function delete($id)
   {
-
+    if ($this->session->userdata('role') == '1'){
     $this->load->model('Unit_model');
     $this->Unit_model->hapus_data($id);
     redirect('unit/index');
+  }
   }
   public function sheet($id)
   {

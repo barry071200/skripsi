@@ -59,7 +59,6 @@ class Timesheet extends CI_Controller
     } else {
       redirect('login/index');
     }
-    
   }
   public function delete($id)
   {

@@ -1,6 +1,4 @@
-<?php 
-	$CI =& get_instance();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,7 +115,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+             <li class="nav-item">
                 <a href="<?php echo site_url('timesheet')?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>TIMESHEET</p>
@@ -148,6 +146,14 @@
                 </a>
               </li>
             </ul>
+           
+              <li class="nav-item">
+                <a href="<?php echo site_url('login/logout')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>logout</p>
+                </a>
+              </li>
+            
           </li>
           
         </ul>
