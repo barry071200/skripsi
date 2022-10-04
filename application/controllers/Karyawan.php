@@ -23,20 +23,24 @@ class Karyawan extends CI_Controller
 
   public function __construct()
   {
+    
     parent::__construct();
     if($this->session->userdata('logged_in') !== TRUE){
       redirect('login/index');
-    }
+    
+  }
   }
 
   public function index()
   {
+    if ($this->session->userdata('role') == '1' OR $this->session->userdata('role') == '4') {
     $this->load->model('karyawan_model');
     $data['karyawan'] = $this->karyawan_model->ambil()->result_array();
 
     $data['judul'] = "Tabel Karyawan";
     $data['layout'] = "karyawan/index";
     $this->load->view('template', $data);
+    }
   }
 
   public function tambah()

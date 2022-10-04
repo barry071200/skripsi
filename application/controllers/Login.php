@@ -52,14 +52,18 @@ class Login extends CI_Controller
       );
       $this->session->set_userdata($setdata);
       if ($status == true && $data['role'] == '1') {
-        redirect('timesheet/index');
+        redirect('dashboard/index');
       } else {
         if ($status == true && $data['role'] == '2') {
 
-          redirect('karyawan/index');
+          redirect('dashboard/index');
         } else
         if ($status == true && $data['role'] == '3') {
-          redirect('supervisor/index');
+          redirect('dashboard/index');
+        }
+        else
+        if ($status == true && $data['role'] == '4') {
+          redirect('dashboard/index');
         }
         redirect('login/index');
       }

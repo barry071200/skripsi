@@ -32,7 +32,7 @@ class Unit extends CI_Controller
   public function index()
   {
     
-    if ($this->session->userdata('role') == '1'){
+    if ($this->session->userdata('role') == '1' OR $this->session->userdata('role') == '4'){
     $this->load->model('Unit_model');
     $data['unit'] = $this->Unit_model->ambil()->result_array();
     $data['layout'] = 'unit/index';

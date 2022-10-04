@@ -34,6 +34,7 @@ class Timesheet extends CI_Controller
     if ($this->session->userdata('role') == '1') {
       $this->load->model('Timesheet_model');
       $data['timesheet'] = $this->Timesheet_model->ambil()->result_array();
+
       $data['layout'] = 'timesheet/index';
       $data['judul'] = 'Data Timesheet';
       $this->load->view('template', $data);
