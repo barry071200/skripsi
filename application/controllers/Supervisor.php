@@ -32,7 +32,7 @@ class Supervisor extends CI_Controller
 
   public function index()
   {
-    if ($this->session->userdata('role') == '3' OR $this->session->userdata('role') == '1'){
+    if ($this->session->userdata('role') == '3' ){
 
    
     $this->load->model('Supervisor_model');
@@ -47,7 +47,7 @@ class Supervisor extends CI_Controller
   }
   public function cek($id, $valid)
     {
-      if ($this->session->userdata('role') == '3' OR $this->session->userdata('role') == '1' ) {
+      if ($this->session->userdata('role') == '3' ) {
         $this->load->model('Supervisor_model');
         $this->Supervisor_model->valid($id,$valid);
         redirect('supervisor/index');

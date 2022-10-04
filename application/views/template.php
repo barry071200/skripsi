@@ -141,7 +141,7 @@
             </li>
 
               <?php } ?>
-              <?php if ($this->session->userdata('role') == '1' OR $this->session->userdata('role') == '3' ) { ?>
+              <?php if ( $this->session->userdata('role') == '3' ) { ?>
             <li class="nav-item">
               <a href="<?php echo site_url('supervisor') ?>" class="nav-link">
               <i class="bi bi-person-circle"></i>

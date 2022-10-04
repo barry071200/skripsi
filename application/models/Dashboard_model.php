@@ -33,8 +33,27 @@ class Dashboard_model extends CI_Model
   public function count()
   {
     $this->db->select('(SELECT MAX(ipk) FROM ijazah) AS max', FALSE);
-   return $this->db->get();
+    return $this->db->get();
   }
+  public function countkaryawan()
+  {
+    return $this->db->count_all('karyawan');
+  }
+  public function countunit()
+  {
+    return $this->db->count_all('unit');
+  }
+  public function counttimesheet()
+  {
+    return $this->db->count_all('timesheet');
+  }
+  public function countjam()
+  {
+    $this->db->select('(SELECT SUM(hm_akhir)-SUM(hm_awal) from timesheet) as jam', FALSE);
+    $query = $this->db->get();
+    return $query;
+  }
+
 
   // ------------------------------------------------------------------------
 
