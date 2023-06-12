@@ -20,40 +20,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Supervisor extends CI_Controller
 {
-    
+
   public function __construct()
   {
 
     parent::__construct();
-    if($this->session->userdata('logged_in') !== TRUE){
+    if ($this->session->userdata('logged_in') !== TRUE) {
       redirect('login/index');
     }
   }
 
   public function index()
   {
-    if ($this->session->userdata('role') == '3' ){
-
-   
-    $this->load->model('Supervisor_model');
-    $data['timesheet'] = $this->Supervisor_model->ambil()->result_array();
-    $data['layout'] = 'supervisor/index';
-    $data['judul'] = 'Data Timesheet';
-    $this->load->view('template', $data);
-  }
-  else{
-    redirect('login/index');
-  }
+    if ($this->session->userdata('role') == '3') {
+      $this->load->model('Supervisor_model');
+      $data['timesheet'] = $this->Supervisor_model->ambil()->result_array();
+      $data['layout'] = 'supervisor/index';
+      $data['judul'] = 'Data Timesheet';
+      $this->load->view('template', $data);
+    } else {
+      redirect('login/index');
+    }
   }
   public function cek($id, $valid)
-    {
-      if ($this->session->userdata('role') == '3' ) {
-        $this->load->model('Supervisor_model');
-        $this->Supervisor_model->valid($id,$valid);
-        redirect('supervisor/index');
-      }
-
+  {
+    if ($this->session->userdata('role') == '3') {
+      $this->load->model('Supervisor_model');
+      $this->Supervisor_model->valid($id, $valid);
+      redirect('supervisor/index');
     }
+  }
 }
 
 

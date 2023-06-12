@@ -23,23 +23,21 @@ class Karyawan extends CI_Controller
 
   public function __construct()
   {
-    
+
     parent::__construct();
-    if($this->session->userdata('logged_in') !== TRUE){
+    if ($this->session->userdata('logged_in') !== TRUE) {
       redirect('login/index');
-    
-  }
+    }
   }
 
   public function index()
   {
-    if ($this->session->userdata('role') == '1' OR $this->session->userdata('role') == '4') {
-    $this->load->model('karyawan_model');
-    $data['karyawan'] = $this->karyawan_model->ambil()->result_array();
-
-    $data['judul'] = "Tabel Karyawan";
-    $data['layout'] = "karyawan/index";
-    $this->load->view('template', $data);
+    if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4' or $this->session->userdata('role') == '5' or $this->session->userdata('role') == '3') {
+      $this->load->model('karyawan_model');
+      $data['karyawan'] = $this->karyawan_model->ambil()->result_array();
+      $data['judul'] = "Data Karyawan";
+      $data['layout'] = "karyawan/index";
+      $this->load->view('template', $data);
     }
   }
 
@@ -55,6 +53,7 @@ class Karyawan extends CI_Controller
     $this->karyawan_model->tambah($data);
     redirect('karyawan/index');
   }
+  
   public function delete($id)
   {
     $this->load->model("karyawan_model");
@@ -77,8 +76,18 @@ class Karyawan extends CI_Controller
   }
   public function sheet($id)
   {
+    $this->load->model('Timesheet_model');
     $this->load->model('karyawan_model');
     $data['karyawan'] = $this->karyawan_model->sheet($id)->result_array();
+    $data['sum'] = $this->Timesheet_model->sumjam($id)->result_array();
+    $data['layout'] = 'karyawan/Laporan';
+    $data['judul'] = 'Data Timesheet';
+    $this->load->view('template', $data);
+  }
+  public function cetak($id)
+  {
+    $this->load->model('karyawan_model');
+    $data['karyawan'];
     $data['layout'] = 'karyawan/Laporan';
     $data['judul'] = 'karyawan/Timesheet';
     $this->load->view('template', $data);

@@ -1,16 +1,9 @@
-<?php
-
-$dataPoints = array();
-foreach ($tm as $dt)
-
-	array_push($dataPoints, array("label" => "IPK", "y" => $dt['max']));
-
-?>
 <!DOCTYPE HTML>
 <html>
 
 <head>
 	<!-- Main content -->
+
 	<section class="content">
 		<div class="container-fluid">
 			<!-- Small boxes (Stat box) -->
@@ -24,12 +17,15 @@ foreach ($tm as $dt)
 							<p>Jumlah Karyawan</p>
 						</div>
 						<div class="icon">
-							<i class="ion ion-bag"></i>
+							<i class="bi bi-people-fill"></i>
 						</div>
-						<a href="<?php echo site_url('karyawan') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+						<?php if ($this->session->userdata('role') != '2') { ?>
+							<a href="<?php echo site_url('karyawan') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+						<?php } ?>
 					</div>
 				</div>
 				<!-- ./col -->
+
 				<div class="col-lg-3 col-6">
 					<!-- small box -->
 					<div class="small-box bg-success">
@@ -39,70 +35,61 @@ foreach ($tm as $dt)
 							<p>Jumlah Unit</p>
 						</div>
 						<div class="icon">
-							<i class="ion ion-stats-bars"></i>
+							<i class="bi bi-list-task"></i>
 						</div>
-						<a href="<?php echo site_url('unit') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+						<?php if ($this->session->userdata('role') != '2') { ?>
+							<a href="<?php echo site_url('unit') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+						<?php } ?>
 					</div>
 				</div>
 				<!-- ./col -->
-				<div class="col-lg-3 col-6">
-					<!-- small box -->
-					<div class="small-box bg-warning">
-						<div class="inner">
-							<h3><?php echo $timesheet ?></h3>
+				<?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '2' or $this->session->userdata('role') == '5' or $this->session->userdata('role') == '3') { ?>
+					<div class="col-lg-3 col-6">
+						<!-- small box -->
+						<div class="small-box bg-warning">
+							<div class="inner">
+								<h3><?php echo $timesheet ?></h3>
 
-							<p>Jumlah Timesheet</p>
+								<p>Jumlah Timesheet</p>
+							</div>
+							<div class="icon">
+								<i class="bi bi-pencil-square"></i>
+							</div>
+							<?php if ($this->session->userdata('role') != '2') { ?>
+								<?php if ($this->session->userdata('role') == '3') { ?>
+									<a href="<?php echo site_url('supervisor') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+								<?php } ?>
+								<?php if ($this->session->userdata('role') != '3') { ?>
+									<a href="<?php echo site_url('timesheet') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+								<?php } ?>
+							<?php } ?>
 						</div>
-						<div class="icon">
-							<i class="ion ion-person-add"></i>
-						</div>
-						<a href="<?php echo site_url('timesheet') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 					</div>
-				</div>
+				<?php } ?>
 				<!-- ./col -->
-				<div class="col-lg-3 col-6">
-					<!-- small box -->
-					<div class="small-box bg-danger">
-						<div class="inner">
-							<?php foreach ($jam as $dt) : ?>
-								<h3><?php echo $dt['jam']; ?></h3>
-							<?php endforeach ?>
-							<p>Total Jam</p>
+				<?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '2') { ?>
+					<div class="col-lg-3 col-6">
+						<!-- small box -->
+						<div class="small-box bg-danger">
+							<div class="inner">
+								<?php foreach ($jam as $dt) : ?>
+									<h3><?php echo $dt['jam']; ?></h3>
+								<?php endforeach ?>
+								<p>Total Jam</p>
+							</div>
+							<div class="icon">
+								<i class="bi bi-clock"></i>
+							</div>
+							<?php if ($this->session->userdata('role') != '2') { ?>
+								<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+							<?php } ?>
 						</div>
-						<div class="icon">
-							<i class="ion ion-pie-graph"></i>
-						</div>
-						<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 					</div>
-				</div>
+				<?php } ?>
+
 				<!-- ./col -->
 			</div>
-			<script>
-				window.onload = function() {
-
-					var chart = new CanvasJS.Chart("chartContainer", {
-						animationEnabled: true,
-						theme: "light2", // "light1", "light2", "dark1", "dark2"
-						title: {
-							text: "Masih dalam Tahap Pengembangan"
-						},
-						axisY: {
-							title: "Number of Apps"
-						},
-						data: [{
-							type: "column",
-							dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-						}]
-					});
-					chart.render();
-
-				}
-			</script>
-</head>
-
-<body>
-	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
-	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-</body>
+		</div>
+	</section>
 
 </html>

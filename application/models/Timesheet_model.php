@@ -35,10 +35,10 @@ class Timesheet_model extends CI_Model
     $this->db->select('*');
     $this->db->from('timesheet, unit');
     $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
-    $this->db->order_by('tanggal', 'asc');
+    $this->db->order_by('tanggal', 'dsc');
     return $this->db->get('');
   }
-  public function sum($id)
+  public function sumharga($id)
   {
     $this->db->from('timesheet, unit');
     $this->db->select('sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))', FALSE);
@@ -57,6 +57,28 @@ class Timesheet_model extends CI_Model
     $this->db->where('id_timesheet', $id);
     $this->db->delete('timesheet');
   }
+  public function unit()
+  {
+    $this->db->select('*');
+    $this->db->from('unit');
+    return $this->db->get('');
+  }
+  public function karyawan()
+  {
+    $this->db->select('*');
+    $this->db->from('karyawan');
+    return $this->db->get('');
+  }
+  public function sumjam($id)
+  {
+    $this->db->from('timesheet, karyawan');
+    $this->db->select('sum(timesheet.hm_akhir-timesheet.hm_awal)', FALSE);
+    $this->db->where('karyawan.id_karyawan=', $id);
+    $this->db->where('timesheet.id_karyawan=', $id);
+    $query = $this->db->get('');
+    return ($query);
+  }
+
 
 
 

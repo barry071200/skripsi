@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-<script src="<?= base_url()?>assets/DataTables/DataTables.min.js"></script>
-<link rel="stylesheet" href="<?= base_url()?>assets/DataTables/DataTables.min.css">
+<script src="<?= base_url() ?>assets/DataTables/DataTables.min.js"></script>
+<link rel="stylesheet" href="<?= base_url() ?>assets/DataTables/DataTables.min.css">
 
 <div class="card-body">
     <form>
@@ -38,11 +38,11 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Unit Baru</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Pengguna Baru</h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <form method="post" action="<?php echo site_url("unit/tambah") ?>">
+                        <form method="post" action="<?php echo site_url("pengguna/tambah") ?>">
 
                             <label for="nama_unit">Usernmae</label>
                             <input type="text" class="form-control" id="nama_unit" name="nama_unit" placeholder="Masukan Nama Unit">
@@ -50,7 +50,7 @@
                             <input type="text" class="form-control" id="perusahaan" name="perusahaan" placeholder="Masukan Nama Perusahaan">
                             <label for="tahun">Password </label>
                             <input type="number" class="form-control" rows="3" id="tahun" name="tahun" placeholder="Masukan Tahun Pembelian">
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -66,8 +66,7 @@
     </div>
 </div>
 <script>
-$(document).ready( function () {
-    $('#example1').DataTable();
-} );
-
+    $(document).ready(function() {
+        $('#example1').DataTable();
+    });
 </script>

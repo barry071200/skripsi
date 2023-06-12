@@ -30,11 +30,6 @@ class Dashboard_model extends CI_Model
 
 
   // ------------------------------------------------------------------------
-  public function count()
-  {
-    $this->db->select('(SELECT MAX(ipk) FROM ijazah) AS max', FALSE);
-    return $this->db->get();
-  }
   public function countkaryawan()
   {
     return $this->db->count_all('karyawan');

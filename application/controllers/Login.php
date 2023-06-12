@@ -30,48 +30,50 @@ class Login extends CI_Controller
   {
     $this->load->view('login');
   }
+
   public function cek()
   {
     $this->load->model('login_model');
     $post = $this->input->post();
     $username = $post['username'];
     $pw = $post['password'];
-    $status = $this->login_model->cek($username, $pw);
 
+    $status = $this->login_model->cek($username, $pw);
     if ($status == true) {
+      $username = $this->input->post('username');
+      $this->session->set_userdata('username', $username);
+      
       $data = $status->row_array();
-      $name = $data['username'];
-      $pass = $data['passsword'];
+      $username = $data['username'];
+      $pw = $data['password'];
       $role = $data['role'];
       $setdata = array(
-        'username' => $name,
-        'password' => $pass,
+        'username' => $username,
+        'password' => $pw,
         'role' => $role,
         'logged_in' => TRUE
 
       );
       $this->session->set_userdata($setdata);
-      if ($status == true && $data['role'] == '1') {
+      if ($data['role'] == '1') {
         redirect('dashboard/index');
       } else {
-        if ($status == true && $data['role'] == '2') {
-
+        if ($data['role'] == '2') {
           redirect('dashboard/index');
-        } else
-        if ($status == true && $data['role'] == '3') {
+        } elseif ($data['role'] == '3') {
           redirect('dashboard/index');
-        }
-        else
-        if ($status == true && $data['role'] == '4') {
+        } elseif ($data['role'] == '4') {
+          redirect('dashboard/index');
+        } elseif ($data['role'] == '5') {
           redirect('dashboard/index');
         }
-        redirect('login/index');
       }
     } else {
-
       redirect('login/index');
+      $this->session->set_flashdata('error', 'Username atau password salah');
     }
   }
+
   public function logout()
   {
     session_destroy();

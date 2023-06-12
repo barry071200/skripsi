@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TIMESHEET</title>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -14,6 +14,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/adminlte.min.css">
   <script src="<?= base_url() ?>assets/plugins/jquery/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -27,10 +29,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?= base_url() ?>assets/index3.html" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">Contact</a>
+          <a href="https://www.cokal.com.au/" class="nav-link">Information</a>
         </li>
       </ul>
 
@@ -87,7 +86,7 @@
             <img src="<?= base_url() ?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
+            <a href="#" class="d-block"><?php echo $this->session->userdata('username'); ?> Sedang Login</p></a>
           </div>
         </div>
 
@@ -108,56 +107,67 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            
-               <li class="nav-item">
+
+            <li class="nav-item">
               <a href="<?php echo site_url('dashboard') ?>" class="nav-link">
-              <i class="bi bi-speedometer"></i>
+                <i class="bi bi-speedometer"></i>
                 <p>Dashboard</p>
               </a>
 
             </li>
-            <?php if ($this->session->userdata('role') == '1') { ?>
-            <li class="nav-item">
-              <a href="<?php echo site_url('timesheet') ?>" class="nav-link">
-                <i class="fa fa-edit"></i>
-                <p>Timesheett</p>
-              </a>
+            <?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '5') { ?>
+              <li class="nav-item">
+                <a href="<?php echo site_url('timesheet') ?>" class="nav-link">
+                  <i class="fa fa-edit"></i>
+                  <p>Timesheett</p>
+                </a>
               <?php } ?>
-            </li>
-           <?php if ($this->session->userdata('role') == '1' OR $this->session->userdata('role') == '4') { ?>
-            <li class="nav-item">
-              <a href="<?php echo site_url('karyawan') ?>" class="nav-link">
-              <i class="bi bi-people-fill"></i>
-                <p>Karyawan</p>
-              </a>
-            </li>
-            <?php } ?>
-            <?php if ($this->session->userdata('role') == '1' OR $this->session->userdata('role') == '4') { ?>
-            <li class="nav-item">
-              <a href="<?php echo site_url('unit') ?>" class="nav-link">
-              <i class="bi bi-list-task"></i>
-                <p>Unit</p>
-              </a>
-            </li>
+              </li>
+              <?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4' or $this->session->userdata('role') == '5' or $this->session->userdata('role') == '3') { ?>
+                <li class="nav-item">
+                  <a href="<?php echo site_url('karyawan') ?>" class="nav-link">
+                    <i class="bi bi-people-fill"></i>
+                    <p>Karyawan</p>
+                  </a>
+                </li>
+              <?php } ?>
+              <?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4' or $this->session->userdata('role') == '5' or $this->session->userdata('role') == '3') { ?>
+                <li class="nav-item">
+                  <a href="<?php echo site_url('unit') ?>" class="nav-link">
+                    <i class="bi bi-list-task"></i>
+                    <p>Unit</p>
+                  </a>
+                </li>
 
               <?php } ?>
-              <?php if ( $this->session->userdata('role') == '3' ) { ?>
-            <li class="nav-item">
-              <a href="<?php echo site_url('supervisor') ?>" class="nav-link">
-              <i class="bi bi-person-circle"></i>
-                <p>Supervisor</p>
-              </a>
-            </li>
-            <?php } ?>
+              <?php if ($this->session->userdata('role') == '3') { ?>
+                <li class="nav-item">
+                  <a href="<?php echo site_url('supervisor') ?>" class="nav-link">
+                    <i class="bi bi-person-circle"></i>
+                    <p>Supervisor</p>
+                  </a>
+                </li>
+              <?php } ?>
 
-            <li class="nav-item">
-              <a href="<?php echo site_url('login/logout') ?>" class="nav-link">
-              <i class="bi bi-box-arrow-left"></i>
-                <p>logout</p>
-              </a>
-            </li>
+              </li>
+              <?php if ($this->session->userdata('role') == '1') { ?>
+                <li class="nav-item">
+                  <a href="<?php echo site_url('Pengguna') ?>" class="nav-link">
+                    <i class="bi bi-person-plus"></i>
+                    <p>Pengguna</p>
+                  </a>
+                <?php } ?>
 
-            </li>
+                </li>
+
+                <li class="nav-item">
+                  <a href="<?php echo site_url('login/logout') ?>" class="nav-link">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <p>logout</p>
+                  </a>
+                </li>
+
+                </li>
 
           </ul>
         </nav>
@@ -195,7 +205,7 @@
       <div class="float-right d-none d-sm-block">
         <b>Albertus C.P</b>
       </div>
-      <!--<strong>Copyright &copy; Albertus Cahaya Putra <a href="https://www.cokal.com.au/">Timesheet cokal.com</a>.</strong> All rights reserved.-->
+      <strong>Copyright &copy; Albertus Cahaya Putra.</strong>
     </footer>
 
     <!-- Control Sidebar -->

@@ -35,13 +35,19 @@ class Login_model extends CI_Model
     $this->db->select('*');
     $this->db->where('username', $username);
     $this->db->where('password', $pw);
-    $this->db->from('user');
-    return $this->db->get();
+    $this->db->from('users');
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query;
+    } else {
+      return FALSE;
+    }
   }
+}
 
   // ------------------------------------------------------------------------
 
-}
+
 
 /* End of file Login_model.php */
 /* Location: ./application/models/Login_model.php */
