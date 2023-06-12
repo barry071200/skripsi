@@ -53,7 +53,7 @@ class Karyawan extends CI_Controller
     $this->karyawan_model->tambah($data);
     redirect('karyawan/index');
   }
-  
+
   public function delete($id)
   {
     $this->load->model("karyawan_model");

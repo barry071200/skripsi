@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php if (isset($error)) : ?>
+    <div class="alert alert-danger"><?php echo $error; ?></div>
+<?php endif; ?>
 
 <head>
     <meta charset="utf-8">

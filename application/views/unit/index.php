@@ -3,24 +3,24 @@
 <link rel="stylesheet" href="<?= base_url() ?>assets/DataTables/DataTables.min.css">
 
 <div class="card-body">
-<div style="display: flex; align-items: center;">
-<?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4') { ?>
-        <form>
-            <th colspan="4"><a class="btn btn-primary" data-toggle="modal" style="margin-right: 10px;" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>"><i class="fa fa-plus"></i> Tambah</a></th>
-        </form>
-    <?php } ?>
+    <div style="display: flex; align-items: center;">
+        <?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4') { ?>
+            <form>
+                <th colspan="4"><a class="btn btn-primary" data-toggle="modal" style="margin-right: 10px;" data-target="#tambahunit" href="<?php echo site_url('unit/tambah') ?>"><i class="fa fa-plus"></i> Tambah</a></th>
+            </form>
+        <?php } ?>
+        <br>
+        <button type="button" onclick="printData()" style="margin-right: 10px;" class="btn btn-success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+            </svg>
+            Print
+        </button>
+        <br>
+
+    </div>
     <br>
-<button type="button" onclick="printData()" style="margin-right: 10px;" class="btn btn-success">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-        </svg>
-                Print
-    </button>
-    <br>
-    
-</div>
-<br>
     <table id="example1" class="table table-striped">
         <thead class="table-dark">
             <tr>
@@ -50,7 +50,7 @@
                         </td>
                     <?php } ?>
                     <?php if ($this->session->userdata('role') != '4') { ?>
-                    <td> <a class="btn btn-success" href="<?php echo site_url("unit/sheet") . "/" . $dt['id_unit']; ?>">SHEET</a></td>
+                        <td> <a class="btn btn-success" href="<?php echo site_url("unit/sheet") . "/" . $dt['id_unit']; ?>">SHEET</a></td>
                     <?php } ?>
                 </tr>
             <?php endforeach ?>
@@ -98,7 +98,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <form method="post" action="<?php echo site_url("unit/edit") ?>">
-                                <label for="id_unit">Nama Unit</label>
+                                <label for="id_unit">ID Unit</label>
                                 <input type="text" class="form-control" id="id_unit" name="id_unit" value="<?php echo $dt['id_unit']; ?>" readonly>
                                 <label for="nama_unit">Nama Unit</label>
                                 <input type="text" class="form-control" id="nama_unit" name="nama_unit" value="<?php echo $dt['nama_unit']; ?>">

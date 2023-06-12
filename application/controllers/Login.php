@@ -42,7 +42,7 @@ class Login extends CI_Controller
     if ($status == true) {
       $username = $this->input->post('username');
       $this->session->set_userdata('username', $username);
-      
+
       $data = $status->row_array();
       $username = $data['username'];
       $pw = $data['password'];
@@ -69,6 +69,7 @@ class Login extends CI_Controller
         }
       }
     } else {
+      $data['error'] = 'Username atau Password Salah';
       redirect('login/index');
       $this->session->set_flashdata('error', 'Username atau password salah');
     }

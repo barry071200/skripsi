@@ -83,6 +83,20 @@ class Timesheet extends CI_Controller
     $data = $this->cetak_model->coba()->result();
     var_dump($data);
   }
+  public function edit()
+  {
+    $data = array();
+    $this->load->model('timesheet_model');
+    $post = $this->input->post();
+    $id = $post['id_timesheet'];
+    $data['id_'] = $post['nama_karyawan'];
+    $data['alamat'] = $post['alamat'];
+    $data['no_telpon'] = $post['no_telpon'];
+    $data['tgl_lahir'] = $post['tgl_lahir'];
+    $this->karyawan_model->ubah_data($id, $data);
+    $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
+    redirect('karyawan/index');
+  }
 }
 
 
