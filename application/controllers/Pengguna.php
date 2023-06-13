@@ -40,6 +40,12 @@ class Pengguna extends CI_Controller
             $this->load->view('template', $data);
         }
     }
+    public function clear_flash_data()
+    {
+        $this->session->unset_userdata('admin_save_success');
+        $this->session->unset_userdata('admin_hapus_success');
+    }
+
     public function tambah()
     {
         if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '1') {
@@ -51,6 +57,7 @@ class Pengguna extends CI_Controller
             $data['role'] = $post['role'];
 
             $this->Pengguna_model->tambah($data);
+            $this->session->set_flashdata('admin_save_success', 'Tambah berhasil');
             redirect('pengguna/index');
         } else {
             redirect('login/index');
@@ -74,6 +81,7 @@ class Pengguna extends CI_Controller
         $data['password'] = $post['password'];
         $data['role'] = $post['role'];
         $this->pengguna_model->ubah_data($id, $data);
+        $this->session->set_flashdata('admin_save_success', 'Update berhasil');
         redirect('pengguna/index');
         $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
     }

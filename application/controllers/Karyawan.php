@@ -51,7 +51,13 @@ class Karyawan extends CI_Controller
     $data['no_telpon'] = $post['no_telpon'];
     $data['tgl_lahir'] = $post['tgl_lahir'];
     $this->karyawan_model->tambah($data);
+    $this->session->set_flashdata('admin_save_success', 'Tambah berhasil');
     redirect('karyawan/index');
+  }
+  public function clear_flash_data()
+  {
+    $this->session->unset_userdata('admin_save_success');
+    $this->session->unset_userdata('admin_hapus_success');
   }
 
   public function delete($id)
@@ -71,7 +77,7 @@ class Karyawan extends CI_Controller
     $data['no_telpon'] = $post['no_telpon'];
     $data['tgl_lahir'] = $post['tgl_lahir'];
     $this->karyawan_model->ubah_data($id, $data);
-    $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
+    $this->session->set_flashdata('admin_save_success', "data berhasil Diupdate");
     redirect('karyawan/index');
   }
   public function sheet($id)

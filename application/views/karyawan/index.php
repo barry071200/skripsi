@@ -3,9 +3,63 @@
 <link rel="stylesheet" href="<?= base_url() ?>assets/DataTables/DataTables.min.css">
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="<?= base_url('assets/path_to_sweetalert/sweetalert2.min.css') ?>">
+<script src="<?= base_url('assets/path_to_sweetalert/sweetalert2.min.js') ?>"></script>
 
 <div class="card-body">
+    <?php
+    if (!empty($this->session->flashdata('admin_save_success'))) {
+        echo '
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "Sukses",
+            text: "' . $this->session->flashdata('admin_save_success') . '",
+            showConfirmButton: false,
+            timer: 3000
+        });
+    </script>';
+    }
+    ?>
+
+
+    <?php if ($this->session->flashdata('admin_save_success')) : ?>
+        <div class="alert alert-success">
+            <?php echo $this->session->flashdata('admin_save_success'); ?>
+        </div>
+        <script>
+            setTimeout(function() {
+                $(".alert").slideUp("slow", function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        </script>
+    <?php endif; ?>
+
+    <?php if ($this->session->flashdata('admin_hapus_success')) : ?>
+        <div class="alert alert-danger">
+            <?php echo $this->session->flashdata('admin_hapus_success'); ?>
+        </div>
+        <script>
+            setTimeout(function() {
+                $(".alert").slideUp("slow", function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        </script>
+    <?php endif; ?>
+
+
+    <script>
+        // Saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', function() {
+            // Menghapus flash data dengan AJAX
+            fetch('<?php echo base_url('timesheet/clear_flash_data'); ?>', {
+                method: 'POST'
+            });
+        });
+    </script>
     <div style="display: flex; align-items: center;">
         <?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4') { ?>
             <form>
@@ -48,7 +102,7 @@
                     <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?>
                         <td>
                             <a class="btn btn-warning" data-toggle="modal" data-target="#ubahkaryawan<?php echo $dt['id_karyawan']; ?>">Edit</a>
-                            <a class="btn btn-danger" href="<?php echo site_url("karyawan/delete") . "/" . $dt['id_karyawan']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="btn btn-danger btn-delete" href="<?php echo site_url("karyawan/delete") . "/" . $dt['id_karyawan']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     <?php } ?>
                     <?php if ($this->session->userdata('role') != '4') { ?>
@@ -56,6 +110,38 @@
                     <?php } ?>
                 </tr>
             <?php endforeach ?>
+            <!-- sweet alert -->
+            <script>
+                // Saat halaman dimuat
+                window.addEventListener('DOMContentLoaded', function() {
+                    // Dapatkan tombol hapus
+                    var deleteButtons = document.querySelectorAll('.btn-delete');
+
+                    // Tambahkan event listener pada setiap tombol hapus
+                    deleteButtons.forEach(function(button) {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault(); // Menghentikan aksi default dari tombol hapus
+
+                            // Tampilkan konfirmasi Sweet Alert
+                            Swal.fire({
+                                title: "Konfirmasi",
+                                text: "Apakah Anda yakin ingin menghapus?",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "Hapus",
+                                cancelButtonText: "Batal"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Arahkan ke aksi penghapusan
+                                    window.location.href = button.getAttribute('href');
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
+            <!-- sweet alert -->
 
     </table>
     <div class="modal fade" id="tambahkaryawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -69,13 +155,13 @@
                         <form method="post" action="<?php echo site_url("karyawan/tambah") ?>">
 
                             <label for="nama_karyawan">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="nama_karyawan" name="nama_karyawan" placeholder="Masukan Nama Lengkap">
+                            <input type="text" required class="form-control" id="nama_karyawan" name="nama_karyawan" placeholder="Masukan Nama Lengkap">
                             <label for="alamat">Alamat</label>
-                            <textarea class="form-control" rows="3" id="alamat" name="alamat" placeholder="Masukan Alamat Karyawan"></textarea>
+                            <textarea required class="form-control" rows="3" id="alamat" name="alamat" placeholder="Masukan Alamat Karyawan"></textarea>
                             <label for="no_telpon">Nomor Telpon</label>
-                            <input type="number" class="form-control" rows="3" id="no_telpon" name="no_telpon" placeholder="Masukan Nomor Telpon">
+                            <input type="number" required class="form-control" rows="3" id="no_telpon" name="no_telpon" placeholder="Masukan Nomor Telpon">
                             <label for="no_telpon">Tanggal Lahir</label>
-                            <input type="date" class="form-control" rows="3" id="tgl_lahir" name="tgl_lahir" placeholder="Masukan Tanggal Lahir">
+                            <input type="date" required class="form-control" rows="3" id="tgl_lahir" name="tgl_lahir" placeholder="Masukan Tanggal Lahir">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -100,15 +186,15 @@
                         <div class="form-group">
                             <form method="post" action="<?php echo site_url("karyawan/edit"); ?>">
                                 <label for="id_karyawan">ID Karyawan</label>
-                                <input type="text" class="form-control" id="id_karyawan" name="id_karyawan" value="<?php echo $dt['id_karyawan']; ?>" readonly>
+                                <input type="text" required class="form-control" id="id_karyawan" name="id_karyawan" value="<?php echo $dt['id_karyawan']; ?>" readonly>
                                 <label for="nama_karyawan">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="nama_karyawan" name="nama_karyawan" value="<?php echo $dt['nama_karyawan']; ?>">
+                                <input type="text" required class="form-control" id="nama_karyawan" name="nama_karyawan" value="<?php echo $dt['nama_karyawan']; ?>">
                                 <label for="alamat">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" value="<?php echo $dt['alamat']; ?>">
+                                <input type="text" required class="form-control" id="alamat" name="alamat" value="<?php echo $dt['alamat']; ?>">
                                 <label for="no_telpon">Nomor Telpon</label>
-                                <input type="number" class="form-control" rows="3" id="no_telpon" name="no_telpon" value="<?php echo $dt['no_telpon']; ?>">
+                                <input type="number" required class="form-control" rows="3" id="no_telpon" name="no_telpon" value="<?php echo $dt['no_telpon']; ?>">
                                 <label for="no_telpon">Tanggal Lahir</label>
-                                <input type="date" class="form-control" rows="3" id="tgl_lahir" name="tgl_lahir" value="<?php echo $dt['tgl_lahir']; ?>">
+                                <input type="date" required class="form-control" rows="3" id="tgl_lahir" name="tgl_lahir" value="<?php echo $dt['tgl_lahir']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

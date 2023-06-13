@@ -51,8 +51,14 @@ class Unit extends CI_Controller
       $data['perusahaan'] = $post['perusahaan'];
       $data['harga'] = $post['harga'];
       $this->unit_model->tambah($data);
+      $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
       redirect('unit/index');
     }
+  }
+  public function clear_flash_data()
+  {
+    $this->session->unset_userdata('admin_save_success');
+    $this->session->unset_userdata('admin_hapus_success');
   }
   public function edit()
   {
@@ -66,7 +72,7 @@ class Unit extends CI_Controller
       $data['harga'] = $post['harga'];
       $data['tahun'] = $post['tahun'];
       $this->Unit_model->ubah_data($id, $data);
-      $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
+      $this->session->set_flashdata('admin_save_success', "Update berhasil Dimasukan");
       redirect('unit/index');
     }
   }

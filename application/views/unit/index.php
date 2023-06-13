@@ -2,7 +2,63 @@
 <script src="<?= base_url() ?>assets/DataTables/DataTables.min.js"></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/DataTables/DataTables.min.css">
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="<?= base_url('assets/path_to_sweetalert/sweetalert2.min.css') ?>">
+<script src="<?= base_url('assets/path_to_sweetalert/sweetalert2.min.js') ?>"></script>
+
 <div class="card-body">
+    <?php
+    if (!empty($this->session->flashdata('admin_save_success'))) {
+        echo '
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "Sukses",
+            text: "' . $this->session->flashdata('admin_save_success') . '",
+            showConfirmButton: false,
+            timer: 3000
+        });
+    </script>';
+    }
+    ?>
+
+
+    <?php if ($this->session->flashdata('admin_save_success')) : ?>
+        <div class="alert alert-success">
+            <?php echo $this->session->flashdata('admin_save_success'); ?>
+        </div>
+        <script>
+            setTimeout(function() {
+                $(".alert").slideUp("slow", function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        </script>
+    <?php endif; ?>
+
+    <?php if ($this->session->flashdata('admin_hapus_success')) : ?>
+        <div class="alert alert-danger">
+            <?php echo $this->session->flashdata('admin_hapus_success'); ?>
+        </div>
+        <script>
+            setTimeout(function() {
+                $(".alert").slideUp("slow", function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        </script>
+    <?php endif; ?>
+
+
+    <script>
+        // Saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', function() {
+            // Menghapus flash data dengan AJAX
+            fetch('<?php echo base_url('timesheet/clear_flash_data'); ?>', {
+                method: 'POST'
+            });
+        });
+    </script>
     <div style="display: flex; align-items: center;">
         <?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4') { ?>
             <form>
@@ -46,7 +102,7 @@
                     <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?>
                         <td>
                             <a class="btn btn-warning" data-toggle="modal" data-target="#ubahunit<?php echo $dt['id_unit']; ?>">Edit</a>
-                            <a class="btn btn-danger" href="<?php echo site_url("unit/delete") . "/" . $dt['id_unit']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="btn btn-danger btn-delete" href="<?php echo site_url("unit/delete") . "/" . $dt['id_unit']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     <?php } ?>
                     <?php if ($this->session->userdata('role') != '4') { ?>
@@ -56,6 +112,37 @@
             <?php endforeach ?>
 
     </table>
+    <script>
+        // Saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', function() {
+            // Dapatkan tombol hapus
+            var deleteButtons = document.querySelectorAll('.btn-delete');
+
+            // Tambahkan event listener pada setiap tombol hapus
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault(); // Menghentikan aksi default dari tombol hapus
+
+                    // Tampilkan konfirmasi Sweet Alert
+                    Swal.fire({
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin ingin menghapus?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Hapus",
+                        cancelButtonText: "Batal"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Arahkan ke aksi penghapusan
+                            window.location.href = button.getAttribute('href');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <!-- sweet alert -->
     <div class="modal fade" id="tambahunit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -67,13 +154,13 @@
                         <form method="post" action="<?php echo site_url("unit/tambah") ?>">
 
                             <label for="nama_unit">Nama Unit</label>
-                            <input type="text" class="form-control" id="nama_unit" name="nama_unit" placeholder="Masukan Nama Unit">
+                            <input type="text" required class="form-control" id="nama_unit" name="nama_unit" placeholder="Masukan Nama Unit">
                             <label for="perusahaan">Perusahaan</label>
-                            <input type="text" class="form-control" id="perusahaan" name="perusahaan" placeholder="Masukan Nama Perusahaan">
+                            <input type="text" required class="form-control" id="perusahaan" name="perusahaan" placeholder="Masukan Nama Perusahaan">
                             <label for="tahun">Tahun </label>
-                            <input type="number" class="form-control" rows="3" id="tahun" name="tahun" placeholder="Masukan Tahun Pembelian">
+                            <input type="number" required class="form-control" rows="3" id="tahun" name="tahun" placeholder="Masukan Tahun Pembelian">
                             <label for="harga">Harga/Jam</label>
-                            <input type="number" class="form-control" rows="3" id="harga" name="harga" placeholder="Masukan Harga Operator">
+                            <input type="number" required class="form-control" rows="3" id="harga" name="harga" placeholder="Masukan Harga Operator">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -99,15 +186,15 @@
                         <div class="form-group">
                             <form method="post" action="<?php echo site_url("unit/edit") ?>">
                                 <label for="id_unit">ID Unit</label>
-                                <input type="text" class="form-control" id="id_unit" name="id_unit" value="<?php echo $dt['id_unit']; ?>" readonly>
+                                <input type="text" required class="form-control" id="id_unit" name="id_unit" value="<?php echo $dt['id_unit']; ?>" readonly>
                                 <label for="nama_unit">Nama Unit</label>
-                                <input type="text" class="form-control" id="nama_unit" name="nama_unit" value="<?php echo $dt['nama_unit']; ?>">
+                                <input type="text" required class="form-control" id="nama_unit" name="nama_unit" value="<?php echo $dt['nama_unit']; ?>">
                                 <label for="perusahaan">Perusahaan</label>
-                                <input type="text" class="form-control" id="perusahaan" name="perusahaan" value="<?php echo $dt['perusahaan']; ?>">
+                                <input type="text" required class="form-control" id="perusahaan" name="perusahaan" value="<?php echo $dt['perusahaan']; ?>">
                                 <label for="tahun">Tahun </label>
-                                <input type="number" class="form-control" rows="3" id="tahun" name="tahun" value="<?php echo $dt['tahun']; ?>">
+                                <input type="number" required class="form-control" rows="3" id="tahun" name="tahun" value="<?php echo $dt['tahun']; ?>">
                                 <label for="harga">Harga/Jam</label>
-                                <input type="number" class="form-control" rows="3" id="harga" name="harga" value="<?php echo $dt['harga']; ?>">
+                                <input type="number" required class="form-control" rows="3" id="harga" name="harga" value="<?php echo $dt['harga']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

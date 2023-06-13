@@ -24,6 +24,8 @@ class Timesheet extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+
+    //$this->load->library('session');
     if ($this->session->userdata('logged_in') !== TRUE) {
       redirect('login/index');
     }
@@ -49,6 +51,8 @@ class Timesheet extends CI_Controller
   {
     if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '5') {
       $this->load->model('timesheet_model');
+
+      // Jika validasi berhasil, proses data tambahan
       $data = array();
       $post = $this->input->post();
       $data['id_karyawan'] = $post['id_karyawan'];
@@ -57,20 +61,21 @@ class Timesheet extends CI_Controller
       $data['hm_awal'] = $post['hm_awal'];
       $data['hm_akhir'] = $post['hm_akhir'];
       $data['keterangan'] = $post['keterangan'];
-
       $this->timesheet_model->tambah($data);
-      $this->session->set_flashdata('success_message', 'Data berhasil disimpan.');
+      $this->session->set_flashdata('admin_save_success', 'Tambah berhasil');
       redirect('timesheet/index');
     } else {
       redirect('login/index');
     }
   }
+
+
   public function delete($id)
   {
     if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '5') {
       $this->load->model('timesheet_model');
       $this->timesheet_model->hapus($id);
-
+      $this->session->set_flashdata('admin_hapus_success', 'Hapus berhasil');
       redirect('timesheet/index');
     } else {
       redirect('login/index');
@@ -96,9 +101,35 @@ class Timesheet extends CI_Controller
     $data['hm_awal'] = $post['hm_awal'];
     $data['hm_akhir'] = $post['hm_akhir'];
     $data['keterangan'] = $post['keterangan'];
-    $this->Timesheet_model->ubah_data($id, $data);
-    $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
-    redirect('karyawan/index');
+    $this->timesheet_model->ubah_data($id, $data);
+    $this->session->set_flashdata('admin_save_success', 'Update berhasil');
+    redirect('timesheet/index');
+  }
+
+  public function clear_flash_data()
+  {
+    $this->session->unset_userdata('admin_save_success');
+    $this->session->unset_userdata('admin_hapus_success');
+  }
+
+
+  public function unit()
+  {
+    $this->load->model('Unit_model');
+    $data['unit'] = $this->Unit_model->ambil()->result_array();
+    $data['layout'] = 'timesheet/index';
+    $data['judul'] = 'Data Unit';
+    $this->load->view('template', $data);
+  }
+
+  public function karyawan()
+  {
+
+    $this->load->model('karyawan_model');
+    $data['karyawan'] = $this->karyawan_model->ambil()->result_array();
+    $data['judul'] = "Data Karyawan";
+    $data['layout'] = "timesheet/index";
+    $this->load->view('template', $data);
   }
 }
 
