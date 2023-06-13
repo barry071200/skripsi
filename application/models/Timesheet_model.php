@@ -78,6 +78,11 @@ class Timesheet_model extends CI_Model
     $query = $this->db->get('');
     return ($query);
   }
+  public function ubah_data($id, $data)
+  {
+    $this->db->where('id_timesheer', $id);
+    $this->db->update('timesheet', $data);
+  }
 
 
 

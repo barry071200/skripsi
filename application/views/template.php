@@ -119,7 +119,7 @@
               <li class="nav-item">
                 <a href="<?php echo site_url('timesheet') ?>" class="nav-link">
                   <i class="fa fa-edit"></i>
-                  <p>Timesheett</p>
+                  <p>Timesheet</p>
                 </a>
               <?php } ?>
               </li>
@@ -144,7 +144,7 @@
                 <li class="nav-item">
                   <a href="<?php echo site_url('supervisor') ?>" class="nav-link">
                     <i class="bi bi-person-circle"></i>
-                    <p>Supervisor</p>
+                    <p>Validasi</p>
                   </a>
                 </li>
               <?php } ?>

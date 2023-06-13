@@ -57,7 +57,7 @@
                     <td><?php echo $dt['keterangan']; ?></td>
                     <td><?php echo $dt['konfirmasi']; ?></td>
                     <td>
-                        <a class="btn btn-warning" data-toggle="modal" data-target="#ubahunit<?php echo $dt['id_unit']; ?>">Edit</a>
+                        <a class="btn btn-warning" data-toggle="modal" data-target="#ubahtimesheet<?php echo $dt['id_timesheet']; ?>">Edit</a>
                         <a class="btn btn-danger" href="<?php echo site_url("timesheet/delete") . "/" . $dt['id_timesheet']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>
@@ -111,6 +111,46 @@
             </div>
         </div>
     </div>
+    <?php $no = 0;
+    foreach ($timesheet as $dt) : $no++ ?>
+        <div class="modal fade" id="ubahtimesheet<?php echo $dt['id_timesheet']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Data Timesheet</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <form method="post" action="<?php echo site_url("timesheet/edit"); ?>">
+                                <label for="id_timesheet">ID Timesheet</label>
+                                <input type="text" class="form-control" id="id_timesheet" name="id_timesheet" value="<?php echo $dt['id_timesheet']; ?>" readonly>
+                                <label for="id_unit">Nama Unit</label>
+                                <input type="text" class="form-control" id="id_unit" name="id_unit" value="<?php echo $dt['nama_unit']; ?>" <?php echo $dt['id_unit']; ?> readonly>
+                                <label for="id_karyawan">Nama karyawan</label>
+                                <input type="text" class="form-control" id="id_karyawan" name="id_karyawan" value="<?php echo $dt['nama_karyawan']; ?>" <?php echo $dt['id_karyawan']; ?> readonly>
+                                <label for="tanggal">Tanggal</label>
+                                <input type="date" class="form-control" rows="3" id="tanggal" name="tanggal" value="<?php echo $dt['tanggal']; ?>">
+                                <label for="hm_awal">HM AWAL</label>
+                                <input type="number" class="form-control" rows="3" id="hm_awal" name="hm_awal" value="<?php echo $dt['hm_awal']; ?>">
+                                <label for="hm_akhir">HM AKHIR</label>
+                                <input type="number" class="form-control" rows="3" id="hm_akhir" name="hm_akhir" value="<?php echo $dt['hm_akhir']; ?>">
+                                <label for="keterangan">Keterangan</label>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" value="<?php echo $dt['keterangan']; ?>">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <?php endforeach ?>
+
+
 </div>
 <script>
     var table = $('#example1').DataTable();

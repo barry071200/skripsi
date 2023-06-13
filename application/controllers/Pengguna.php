@@ -36,7 +36,7 @@ class Pengguna extends CI_Controller
             $this->load->model('Pengguna_model');
             $data['user'] = $this->Pengguna_model->ambil()->result_array();
             $data['layout'] = 'pengguna/index';
-            $data['judul'] = 'Data Usesr';
+            $data['judul'] = 'Data User';
             $this->load->view('template', $data);
         }
     }

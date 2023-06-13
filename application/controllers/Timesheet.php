@@ -89,11 +89,14 @@ class Timesheet extends CI_Controller
     $this->load->model('timesheet_model');
     $post = $this->input->post();
     $id = $post['id_timesheet'];
-    $data['id_'] = $post['nama_karyawan'];
-    $data['alamat'] = $post['alamat'];
-    $data['no_telpon'] = $post['no_telpon'];
-    $data['tgl_lahir'] = $post['tgl_lahir'];
-    $this->karyawan_model->ubah_data($id, $data);
+    $data['id_timesheet'] = $post['id_timesheet'];
+    $data['id_unit'] = $post['id_unit'];
+    $data['id_karyawan'] = $post['id_karyawan'];
+    $data['tanggal'] = $post['tanggal'];
+    $data['hm_awal'] = $post['hm_awal'];
+    $data['hm_akhir'] = $post['hm_akhir'];
+    $data['keterangan'] = $post['keterangan'];
+    $this->Timesheet_model->ubah_data($id, $data);
     $this->session->set_flashdata('admin_save_success', "data berhasil Dimasukan");
     redirect('karyawan/index');
   }
