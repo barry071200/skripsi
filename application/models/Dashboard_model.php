@@ -48,6 +48,21 @@ class Dashboard_model extends CI_Model
     $query = $this->db->get();
     return $query;
   }
+  public function getGenderData()
+  {
+    $query = $this->db->query('
+            SELECT
+                COUNT(*) AS total,
+                ROUND(COUNT(*) * 100 / (SELECT COUNT(*) FROM karyawan), 2) AS percentage,
+                jenis_kelamin
+            FROM
+                karyawan
+            GROUP BY
+                jenis_kelamin
+        ');
+
+    return $query->result_array();
+  }
 
 
   // ------------------------------------------------------------------------

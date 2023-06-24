@@ -42,7 +42,7 @@ class Unit extends CI_Controller
   }
   public function tambah()
   {
-    if ($this->session->userdata('role') == '1') {
+    if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4') {
       $this->load->model('unit_model');
       $data = array();
       $post = $this->input->post();
@@ -62,7 +62,7 @@ class Unit extends CI_Controller
   }
   public function edit()
   {
-    if ($this->session->userdata('role') == '1') {
+    if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4') {
       $data = array();
       $this->load->model('Unit_model');
       $post = $this->input->post();

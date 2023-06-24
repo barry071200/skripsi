@@ -85,6 +85,8 @@
                 <th>Alamat</th>
                 <th>No Telpon</th>
                 <th>Tanggal Lahir</th>
+                <th>jenis kelamin</th>
+
                 <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?><th>Action</th><?php } ?>
                 <?php if ($this->session->userdata('role') != '4') { ?><th>TIMESHEET</th><?php } ?>
 
@@ -99,6 +101,8 @@
                     <td><?php echo $dt['alamat']; ?></td>
                     <td><?php echo $dt['no_telpon']; ?></td>
                     <td><?php echo $dt['tgl_lahir']; ?></td>
+                    <td><?php echo $dt['jenis_kelamin']; ?></td>
+
                     <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?>
                         <td>
                             <a class="btn btn-warning" data-toggle="modal" data-target="#ubahkaryawan<?php echo $dt['id_karyawan']; ?>">Edit</a>
@@ -155,13 +159,20 @@
                         <form method="post" action="<?php echo site_url("karyawan/tambah") ?>">
 
                             <label for="nama_karyawan">Nama Lengkap</label>
-                            <input type="text" required class="form-control" id="nama_karyawan" name="nama_karyawan" placeholder="Masukan Nama Lengkap">
+                            <input type="text" required class="form-control" id="nama_karyawan" name="nama_karyawan" placeholder="Masukkan Nama Lengkap">
                             <label for="alamat">Alamat</label>
-                            <textarea required class="form-control" rows="3" id="alamat" name="alamat" placeholder="Masukan Alamat Karyawan"></textarea>
+                            <textarea required class="form-control" rows="3" id="alamat" name="alamat" placeholder="Masukkan Alamat Karyawan"></textarea>
                             <label for="no_telpon">Nomor Telpon</label>
-                            <input type="number" required class="form-control" rows="3" id="no_telpon" name="no_telpon" placeholder="Masukan Nomor Telpon">
-                            <label for="no_telpon">Tanggal Lahir</label>
-                            <input type="date" required class="form-control" rows="3" id="tgl_lahir" name="tgl_lahir" placeholder="Masukan Tanggal Lahir">
+                            <input type="number" required class="form-control" id="no_telpon" name="no_telpon" placeholder="Masukkan Nomor Telpon">
+                            <label for="tgl_lahir">Tanggal Lahir</label>
+                            <input type="date" required class="form-control" id="tgl_lahir" name="tgl_lahir" placeholder="Masukkan Tanggal Lahir">
+                            <label for="jenis_kelamin">Jenis Kelamin</label>
+                            <select required class="form-control" id="jenis_kelamin" name="jenis_kelamin">
+                                <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                                <option value="Laki-Laki">Laki-Laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -192,9 +203,14 @@
                                 <label for="alamat">Alamat</label>
                                 <input type="text" required class="form-control" id="alamat" name="alamat" value="<?php echo $dt['alamat']; ?>">
                                 <label for="no_telpon">Nomor Telpon</label>
-                                <input type="number" required class="form-control" rows="3" id="no_telpon" name="no_telpon" value="<?php echo $dt['no_telpon']; ?>">
-                                <label for="no_telpon">Tanggal Lahir</label>
-                                <input type="date" required class="form-control" rows="3" id="tgl_lahir" name="tgl_lahir" value="<?php echo $dt['tgl_lahir']; ?>">
+                                <input type="number" required class="form-control" id="no_telpon" name="no_telpon" value="<?php echo $dt['no_telpon']; ?>">
+                                <label for="tgl_lahir">Tanggal Lahir</label>
+                                <input type="date" required class="form-control" id="tgl_lahir" name="tgl_lahir" value="<?php echo $dt['tgl_lahir']; ?>">
+                                <label for="jenis_kelamin">Jenis Kelamin</label>
+                                <select required class="form-control" id="jenis_kelamin" name="jenis_kelamin">
+                                    <option value="Laki-Laki" <?php if ($dt['jenis_kelamin'] == 'laki-Laki') echo 'selected'; ?>>Laki-Laki</option>
+                                    <option value="Perempuan" <?php if ($dt['jenis_kelamin'] == 'Perempuan') echo 'selected'; ?>>Perempuan</option>
+                                </select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

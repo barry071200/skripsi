@@ -50,6 +50,7 @@ class Karyawan extends CI_Controller
     $data['alamat'] = $post['alamat'];
     $data['no_telpon'] = $post['no_telpon'];
     $data['tgl_lahir'] = $post['tgl_lahir'];
+    $data['jenis_kelamin'] = $post['jenis_kelamin'];
     $this->karyawan_model->tambah($data);
     $this->session->set_flashdata('admin_save_success', 'Tambah berhasil');
     redirect('karyawan/index');
@@ -76,6 +77,8 @@ class Karyawan extends CI_Controller
     $data['alamat'] = $post['alamat'];
     $data['no_telpon'] = $post['no_telpon'];
     $data['tgl_lahir'] = $post['tgl_lahir'];
+    $data['jenis_kelamin'] = $post['jenis_kelamin'];
+
     $this->karyawan_model->ubah_data($id, $data);
     $this->session->set_flashdata('admin_save_success', "data berhasil Diupdate");
     redirect('karyawan/index');
@@ -93,7 +96,6 @@ class Karyawan extends CI_Controller
   public function cetak($id)
   {
     $this->load->model('karyawan_model');
-    $data['karyawan'];
     $data['layout'] = 'karyawan/Laporan';
     $data['judul'] = 'karyawan/Timesheet';
     $this->load->view('template', $data);
