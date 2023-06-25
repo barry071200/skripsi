@@ -82,7 +82,24 @@
                     <td><?php echo $no++; ?></td>
                     <td><?php echo $dt['username']; ?></td>
                     <td><?php echo $dt['password']; ?></td>
-                    <td><?php echo $dt['role']; ?></td>
+                    <td>
+                        <?php
+                        $role = $dt['role'];
+                        if ($role == '1') {
+                            echo 'Super Admin';
+                        } elseif ($role == '2') {
+                            echo 'Manager';
+                        } elseif ($role == '3') {
+                            echo 'Supervisor';
+                        } elseif ($role == '4') {
+                            echo 'HR';
+                        } elseif ($role == '5') {
+                            echo 'Admin';
+                        } else {
+                            echo 'Role tidak valid';
+                        }
+                        ?>
+                    </td>
                     <td>
                         <a class="btn btn-warning" data-toggle="modal" data-target="#ubahuser<?php echo $dt['id_user']; ?>">Edit</a>
                         <a class="btn btn-danger btn-delete" href="<?php echo site_url("pengguna/delete") . "/" . $dt['id_user']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
@@ -138,11 +155,13 @@
                             <label for="password">Password</label>
                             <textarea required class="form-control" rows="3" id="password" name="password" placeholder="Masukan Password"></textarea>
                             <label for="role">Role</label>
-                            <br>
-                            <select name="role" id="role">
-                                <?php foreach ($user as $dt) : ?>
-                                    <option value="<?php echo $dt['role']; ?>"><?php echo $dt['role']; ?></option>
-                                <?php endforeach; ?>
+                            <select required class="form-control" id="role" name="role">
+                                <option value="1">Super Admin</option>
+                                <option value="2">Manager</option>
+                                <option value="3">Supervisor</option>
+                                <option value="4">HR</option>
+                                <option value="5">Admin</option>
+
                             </select>
                     </div>
                     <div class="modal-footer">
@@ -174,11 +193,12 @@
                                 <label for="password">Password</label>
                                 <input type="text" required class="form-control" id="password" name="password" value="<?php echo $dt['password']; ?>">
                                 <label for="role">Role</label>
-                                <br>
-                                <select name="role" id="role">
-                                    <?php foreach ($user as $dt) : ?>
-                                        <option value="<?php echo $dt['role']; ?>"><?php echo $dt['role']; ?></option>
-                                    <?php endforeach; ?>
+                                <select required class="form-control" id="role" name="role">
+                                    <option value="1" <?php if ($dt['role'] == '1') echo 'selected'; ?>>Super Admin</option>
+                                    <option value="2" <?php if ($dt['role'] == '2') echo 'selected'; ?>>Manager</option>
+                                    <option value="3" <?php if ($dt['role'] == '3') echo 'selected'; ?>>Supervisor</option>
+                                    <option value="4" <?php if ($dt['role'] == '4') echo 'selected'; ?>>HR</option>
+                                    <option value="5" <?php if ($dt['role'] == '5') echo 'selected'; ?>>Admin</option>
                                 </select>
                         </div>
                         <div class="modal-footer">

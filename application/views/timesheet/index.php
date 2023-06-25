@@ -172,21 +172,17 @@
                     <div class="form-group">
                         <form method="post" action="<?php echo site_url("timesheet/tambah") ?>">
                             <label for="id_unit">Nama Unit</label>
-                            <br>
-                            <select name="id_unit" id="id_unit">
+                            <select class="form-control" name="id_unit" id="id_unit">
                                 <?php foreach ($unit as $dt) : ?>
                                     <option value="<?= $dt->id_unit ?>"><?= $dt->nama_unit ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <br>
                             <label for="id_karyawan">Nama Karyawan</label>
-                            <br>
-                            <select name="id_karyawan" id="id_karyawan">
+                            <select class="form-control" name="id_karyawan" id="id_karyawan">
                                 <?php foreach ($karyawan as $dt) : ?>
                                     <option value="<?= $dt->id_karyawan ?>"><?= $dt->nama_karyawan ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <br>
                             <label for="tanggal">Tanggal </label>
                             <input type="date" required class="form-control" rows="3" id="tanggal" name="tanggal" placeholder="Masukan Tanggal">
 
@@ -219,31 +215,22 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-
                             <form method="post" action="<?php echo site_url("timesheet/edit"); ?>">
                                 <label for="id_timesheet">ID Timesheet</label>
                                 <input type="text" class="form-control" id="id_timesheet" name="id_timesheet" value="<?php echo $dt['id_timesheet']; ?>" readonly>
                                 <label for="id_unit">Nama Unit</label>
-
-
-                                <br>
-                                <select name="id_unit" id="id_unit">
+                                <select class="form-control" name="id_unit" id="id_unit">
                                     <?php foreach ($unit as $un) : ?>
                                         <option value="<?php echo $un->id_unit ?>" <?php echo ($un->id_unit == $dt['id_unit']) ? 'selected' : '' ?>><?php echo $un->nama_unit ?></option>
                                     <?php endforeach; ?>
                                 </select>
-
-
-                                <br>
-
                                 <label for="id_karyawan">Nama karyawan</label>
                                 <br>
-                                <select name="id_karyawan" id="id_karyawan">
+                                <select class="form-control" name="id_karyawan" id="id_karyawan">
                                     <?php foreach ($karyawan as $kar) : ?>
                                         <option value="<?php echo $kar->id_karyawan ?>" <?php echo ($kar->id_karyawan == $dt['id_karyawan']) ? 'selected' : '' ?>><?php echo $kar->nama_karyawan ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <br>
                                 <label for="tanggal">Tanggal</label>
                                 <input type="date" required class="form-control" rows="3" id="tanggal" name="tanggal" value="<?php echo $dt['tanggal']; ?>">
                                 <label for="hm_awal">HM AWAL</label>
