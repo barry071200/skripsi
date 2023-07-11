@@ -85,8 +85,8 @@
                 <th>Perusahaan</th>
                 <th>Tahun</th>
                 <th>Harga/Jam</th>
-                <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?><th>Action</th><?php } ?>
-                <?php if ($this->session->userdata('role') != '4') { ?><th>TIMESHEET</th><?php } ?>
+                <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?><th class="action-column">Action</th><?php } ?>
+                <?php if ($this->session->userdata('role') != '4') { ?><th class="sheet-column">TIMESHEET</th><?php } ?>
 
             </tr>
         </thead>
@@ -100,13 +100,13 @@
                     <td><?php echo $dt['tahun']; ?></td>
                     <td><?php echo number_format($dt['harga'], 0, ',', '.'); ?></td>
                     <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?>
-                        <td>
+                        <td class="action-column">
                             <a class="btn btn-warning" data-toggle="modal" data-target="#ubahunit<?php echo $dt['id_unit']; ?>">Edit</a>
                             <a class="btn btn-danger btn-delete" href="<?php echo site_url("unit/delete") . "/" . $dt['id_unit']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     <?php } ?>
                     <?php if ($this->session->userdata('role') != '4') { ?>
-                        <td> <a class="btn btn-success" href="<?php echo site_url("unit/sheet") . "/" . $dt['id_unit']; ?>">SHEET</a></td>
+                        <td class="sheet-column"> <a class="btn btn-success" href="<?php echo site_url("unit/sheet") . "/" . $dt['id_unit']; ?>">SHEET</a></td>
                     <?php } ?>
                 </tr>
             <?php endforeach ?>
@@ -152,28 +152,33 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <form method="post" action="<?php echo site_url("unit/tambah") ?>">
-
                             <label for="nama_unit">Nama Unit</label>
                             <input type="text" required class="form-control" id="nama_unit" name="nama_unit" placeholder="Masukan Nama Unit">
                             <label for="perusahaan">Perusahaan</label>
                             <input type="text" required class="form-control" id="perusahaan" name="perusahaan" placeholder="Masukan Nama Perusahaan">
-                            <label for="tahun">Tahun </label>
-                            <input type="number" required class="form-control" rows="3" id="tahun" name="tahun" placeholder="Masukan Tahun Pembelian">
+                            <label for="tahun">Tahun</label>
+                            <input type="text" required class="form-control" id="tahun" name="tahun" placeholder="Masukan Tahun Pembelian (4 karakter)">
                             <label for="harga">Harga/Jam</label>
-                            <input type="number" required class="form-control" rows="3" id="harga" name="harga" placeholder="Masukan Harga Operator">
+                            <input type="number" required class="form-control" id="harga" name="harga" placeholder="Masukan Harga Sewa Unit Per jam">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
-
                     </div>
                     </form>
-
                 </div>
 
+                <script>
+                    // Menggunakan JavaScript untuk membatasi input tahun hanya angka dengan batas 4 karakter
+                    var tahunInputTambah = document.getElementById('tahun');
+                    tahunInputTambah.addEventListener('input', function() {
+                        this.value = this.value.replace(/\D/g, '').slice(0, 4);
+                    });
+                </script>
             </div>
         </div>
     </div>
+
     <?php $no = 0;
     foreach ($unit as $dt) : $no++ ?>
         <div class="modal fade" id="ubahunit<?php echo $dt['id_unit']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -191,24 +196,30 @@
                                 <input type="text" required class="form-control" id="nama_unit" name="nama_unit" value="<?php echo $dt['nama_unit']; ?>">
                                 <label for="perusahaan">Perusahaan</label>
                                 <input type="text" required class="form-control" id="perusahaan" name="perusahaan" value="<?php echo $dt['perusahaan']; ?>">
-                                <label for="tahun">Tahun </label>
-                                <input type="number" required class="form-control" rows="3" id="tahun" name="tahun" value="<?php echo $dt['tahun']; ?>">
+                                <label for="tahun">Tahun</label>
+                                <input type="text" required class="form-control" id="tahun-<?php echo $dt['id_unit']; ?>" name="tahun" placeholder="Masukan Tahun Pembelian (4 karakter)" value="<?php echo $dt['tahun']; ?>">
                                 <label for="harga">Harga/Jam</label>
-                                <input type="number" required class="form-control" rows="3" id="harga" name="harga" value="<?php echo $dt['harga']; ?>">
+                                <input type="number" required class="form-control" id="harga" name="harga" value="<?php echo $dt['harga']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                             <button type="submit" class="btn btn-primary">Simpan</button>
-
                         </div>
                         </form>
-
                     </div>
 
+                    <script>
+                        // Menggunakan JavaScript untuk membatasi input tahun hanya angka dengan batas 4 karakter
+                        var tahunInputUbah<?php echo $dt['id_unit']; ?> = document.getElementById('tahun-<?php echo $dt['id_unit']; ?>');
+                        tahunInputUbah<?php echo $dt['id_unit']; ?>.addEventListener('input', function() {
+                            this.value = this.value.replace(/\D/g, '').slice(0, 4);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
     <?php endforeach ?>
+
 
 </div>
 <script>
@@ -218,12 +229,27 @@
 </script>
 <script>
     function printData() {
-        window.print();
-    }
-
-    document.addEventListener("keydown", function(event) {
-        if (event.ctrlKey && event.key === "p") {
-            printData(); // Memanggil fungsi cetak data
+        var table = document.getElementById('example1');
+        var actionColumn = table.querySelectorAll(".action-column");
+        for (var i = 0; i < actionColumn.length; i++) {
+            actionColumn[i].style.display = "none";
         }
-    });
+        var actionColumn = table.querySelectorAll(".sheet-column");
+        for (var i = 0; i < actionColumn.length; i++) {
+            actionColumn[i].style.display = "none";
+        }
+        var tableData = table.outerHTML;
+
+
+        var printPreview = document.createElement('div');
+        printPreview.innerHTML = '<style>body { font-size: 12px; }</style>' +
+            '<div class="d-flex justify-content-between">' +
+            '<h1>PT Bumi Barito Minieral</h1>' +
+            '<h1 class="text-right">Daftar Unit</h1>' +
+            '</div>' +
+            '<table>' + tableData + '</table>';
+        document.body.innerHTML = printPreview.innerHTML;
+        window.print();
+        location.reload();
+    }
 </script>

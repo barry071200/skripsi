@@ -9,9 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="<?= base_url('assets/path_to_sweetalert/sweetalert2.min.css') ?>">
 <script src="<?= base_url('assets/path_to_sweetalert/sweetalert2.min.js') ?>"></script>
-<!-- sweet alert -->
-
-
 <div class="card-body">
     <div class="icon-container">
 
@@ -59,21 +56,48 @@
 
 
         <script>
-            // Saat halaman dimuat
             window.addEventListener('DOMContentLoaded', function() {
-                // Menghapus flash data dengan AJAX
                 fetch('<?php echo base_url('timesheet/clear_flash_data'); ?>', {
                     method: 'POST'
                 });
             });
         </script>
-
-
+        <script>
+            function printData() {
+                var table = document.getElementById('example1');
+                var actionColumn = table.querySelectorAll(".action-column");
+                for (var i = 0; i < actionColumn.length; i++) {
+                    actionColumn[i].style.display = "none";
+                }
+                var tableData = table.outerHTML;
+                var totalJam = 0;
+                var jamFields = table.querySelectorAll('.jam-kerja');
+                for (var i = 0; i < jamFields.length; i++) {
+                    var jamText = jamFields[i].textContent;
+                    var jam = parseInt(jamText);
+                    if (!isNaN(jam)) {
+                        totalJam += jam;
+                    }
+                }
+                var printPreview = document.createElement('div');
+                printPreview.innerHTML = '<style>body { font-size: 12px; }</style>' +
+                    '<div class="d-flex justify-content-between">' +
+                    '<h1>PT Bumi Barito Minieral</h1>' +
+                    '<h1 class="text-right">Timesheet</h1>' +
+                    '</div>' +
+                    '<table>' + tableData + '</table>' +
+                    '<p>Total Jam Kerja: ' + totalJam + ' jam</p>';
+                document.body.innerHTML = printPreview.innerHTML;
+                window.print();
+                location.reload();
+            }
+        </script>
         <div style="display: flex; align-items: center;">
             <form>
                 <th colspan="4"><a class="btn btn-primary" style="margin-right: 10px;" data-toggle="modal" data-target="#tambahtimesheet" href="<?php echo site_url('timesheet/tambah') ?>"><i class="fa fa-plus"></i> Tambah</a></th>
             </form>
             <br>
+
             <button type="button" onclick="printData()" style="margin-right: 10px;" class="btn btn-success">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
                     <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
@@ -83,9 +107,7 @@
             </button>
             <br>
             <label for="daterange" style="margin-right: 10px;">Filter tanggal:</label>
-            <input type="#date" id="daterange" class="form-control" style="width: 220px;">
-
-
+            <input type="#date" id="daterange" class="form-control" placeholder="Masukkan tanggal" style="width: 220px;">
         </div>
     </div>
     <br>
@@ -96,12 +118,12 @@
                 <th>OPERATOR</th>
                 <th>UNIT</th>
                 <th>TANGGAL</th>
-                <th>HM AWAL</th>
-                <th>HM AKHIR</th>
-                <th>JUMLAH</th>
+                <th>Hour Meter AWAL</th>
+                <th>Hour Meter AKHIR</th>
+                <th>JAM KERJA</th>
                 <th>KETERANGAN</th>
                 <th>KONFIRMASI</th>
-                <th>ACTION</th>
+                <th class="action-column">ACTION</th>
             </tr>
         </thead>
         <tbody>
@@ -114,32 +136,42 @@
                     <td><?php echo $dt['tanggal']; ?></td>
                     <td><?php echo $dt['hm_awal']; ?></td>
                     <td><?php echo $dt['hm_akhir']; ?></td>
-                    <td><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?> Jam</td>
+                    <td class="jam-kerja"><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?></td>
                     <td><?php echo $dt['keterangan']; ?></td>
-                    <td><?php echo $dt['konfirmasi']; ?></td>
-                    <td>
+                    <td class="konfirmasi-column">
+                        <?php if ($dt['konfirmasi'] === 'DITERIMA') : ?>
+                            <span class="badge bg-green">
+                                <?php echo $dt['konfirmasi']; ?>
+                            </span>
+                        <?php elseif ($dt['konfirmasi'] === 'DITOLAK') : ?>
+                            <span class="badge bg-warning">
+                                <?php echo $dt['konfirmasi']; ?>
+                            </span>
+                        <?php else : ?>
+                            <span class="badge bg-danger">
+                                Belum Terkonfirmasi
+                            </span>
+                        <?php endif; ?>
+                    </td>
+
+
+                    <td class="action-column">
                         <a class="btn btn-warning" data-toggle="modal" data-target="#ubahtimesheet<?php echo $dt['id_timesheet']; ?>">Edit</a>
                         <a class="btn btn-danger btn-delete" href="<?php echo site_url("timesheet/delete") . "/" . $dt['id_timesheet']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
-
                     </td>
                 </tr>
             <?php endforeach ?>
         </tbody>
     </table>
 
+
     <!-- sweet alert -->
     <script>
-        // Saat halaman dimuat
         window.addEventListener('DOMContentLoaded', function() {
-            // Dapatkan tombol hapus
             var deleteButtons = document.querySelectorAll('.btn-delete');
-
-            // Tambahkan event listener pada setiap tombol hapus
             deleteButtons.forEach(function(button) {
                 button.addEventListener('click', function(event) {
-                    event.preventDefault(); // Menghentikan aksi default dari tombol hapus
-
-                    // Tampilkan konfirmasi Sweet Alert
+                    event.preventDefault();
                     Swal.fire({
                         title: "Konfirmasi",
                         text: "Apakah Anda yakin ingin menghapus?",
@@ -150,7 +182,6 @@
                         cancelButtonText: "Batal"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Arahkan ke aksi penghapusan
                             window.location.href = button.getAttribute('href');
                         }
                     });
@@ -159,9 +190,6 @@
         });
     </script>
     <!-- sweet alert -->
-
-
-
     <div class="modal fade" id="tambahtimesheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -186,27 +214,45 @@
                             <label for="tanggal">Tanggal </label>
                             <input type="date" required class="form-control" rows="3" id="tanggal" name="tanggal" placeholder="Masukan Tanggal">
 
-                            <label for="hm_awal">HM AWAL</label>
+                            <label for="hm_awal">Hour Meter AWAL</label>
                             <input type="number" required class="form-control" rows="3" id="hm_awal" name="hm_awal" placeholder="Masukan HM AWAL">
-                            <label for="hm_akhir">HM AKHIR</label>
+                            <label for="hm_akhir">Hour Meter AKHIR</label>
                             <input type="number" required class="form-control" rows="3" id="hm_akhir" name="hm_akhir" placeholder="Masukan HM AKHIR">
                             <label for="keterangan">Keterangan</label>
                             <input type="text" required class="form-control" id="keterangan" name="keterangan" placeholder="Masukan Keterangan Pekerjaan">
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-    <?php $no = 0;
-    foreach ($timesheet as $dt) : $no++ ?>
+    <script>
+        var hmAwalInput = document.getElementById('hm_awal');
+        var hmAkhirInput = document.getElementById('hm_akhir');
+        document.querySelector('#tambahtimesheet form').addEventListener('submit', function(event) {
+            var hmAwal = parseInt(hmAwalInput.value);
+            var hmAkhir = parseInt(hmAkhirInput.value);
+            if (hmAkhir < hmAwal) {
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'HM Awal tidak boleh lebih besar dari HM Akhir!!!',
+                });
+            }
+        });
+    </script>
+    <?php
+    $no = 0;
+    foreach ($timesheet as $dt) :
+        $no++;
+    ?>
         <div class="modal fade" id="ubahtimesheet<?php echo $dt['id_timesheet']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -214,57 +260,91 @@
                         <h5 class="modal-title" id="exampleModalLabel">Edit Data Timesheet</h5>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <form method="post" action="<?php echo site_url("timesheet/edit"); ?>">
+                        <form method="post" action="<?php echo site_url("timesheet/edit"); ?>">
+                            <div class="form-group">
                                 <label for="id_timesheet">ID Timesheet</label>
                                 <input type="text" class="form-control" id="id_timesheet" name="id_timesheet" value="<?php echo $dt['id_timesheet']; ?>" readonly>
+                            </div>
+                            <div class="form-group">
                                 <label for="id_unit">Nama Unit</label>
                                 <select class="form-control" name="id_unit" id="id_unit">
                                     <?php foreach ($unit as $un) : ?>
                                         <option value="<?php echo $un->id_unit ?>" <?php echo ($un->id_unit == $dt['id_unit']) ? 'selected' : '' ?>><?php echo $un->nama_unit ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <label for="id_karyawan">Nama karyawan</label>
-                                <br>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_karyawan">Nama Karyawan</label>
                                 <select class="form-control" name="id_karyawan" id="id_karyawan">
                                     <?php foreach ($karyawan as $kar) : ?>
                                         <option value="<?php echo $kar->id_karyawan ?>" <?php echo ($kar->id_karyawan == $dt['id_karyawan']) ? 'selected' : '' ?>><?php echo $kar->nama_karyawan ?></option>
                                     <?php endforeach; ?>
                                 </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="tanggal">Tanggal</label>
-                                <input type="date" required class="form-control" rows="3" id="tanggal" name="tanggal" value="<?php echo $dt['tanggal']; ?>">
+                                <input type="date" required class="form-control" id="tanggal_<?php echo $dt['id_timesheet']; ?>" name="tanggal" value="<?php echo $dt['tanggal']; ?>">
+                            </div>
+                            <div class="form-group">
                                 <label for="hm_awal">HM AWAL</label>
-                                <input type="number" required class="form-control" rows="3" id="hm_awal" name="hm_awal" value="<?php echo $dt['hm_awal']; ?>">
+                                <input type="number" required class="form-control" id="hm_awal_<?php echo $dt['id_timesheet']; ?>" name="hm_awal" value="<?php echo $dt['hm_awal']; ?>">
+                            </div>
+                            <div class="form-group">
                                 <label for="hm_akhir">HM AKHIR</label>
-                                <input type="number" required class="form-control" rows="3" id="hm_akhir" name="hm_akhir" value="<?php echo $dt['hm_akhir']; ?>">
+                                <input type="number" required class="form-control" id="hm_akhir_<?php echo $dt['id_timesheet']; ?>" name="hm_akhir" value="<?php echo $dt['hm_akhir']; ?>">
+                            </div>
+                            <div class="form-group">
                                 <label for="keterangan">Keterangan</label>
-                                <input type="text" required class="form-control" id="keterangan" name="keterangan" value="<?php echo $dt['keterangan']; ?>">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                                <input type="text" required class="form-control" id="keterangan_<?php echo $dt['id_timesheet']; ?>" name="keterangan" value="<?php echo $dt['keterangan']; ?>">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
                         </form>
-
                     </div>
-
                 </div>
             </div>
         </div>
+        <script>
+            document.querySelector('#ubahtimesheet<?php echo $dt['id_timesheet']; ?> form').addEventListener('submit', function(event) {
+                var hmAwalInput = document.getElementById('hm_awal_<?php echo $dt['id_timesheet']; ?>');
+                var hmAkhirInput = document.getElementById('hm_akhir_<?php echo $dt['id_timesheet']; ?>');
+                var hmAwal = parseInt(hmAwalInput.value);
+                var hmAkhir = parseInt(hmAkhirInput.value);
+                if (hmAkhir < hmAwal) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'HM Awal tidak boleh lebih besar dari HM Akhir!!!',
+                    });
+                }
+            });
+        </script>
+
+        <script>
+            var tanggalInput = document.getElementById('tanggal');
+            var currentDate = new Date();
+            var year = currentDate.getFullYear();
+            var month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            var day = String(currentDate.getDate()).padStart(2, '0');
+            var maxDate = year + '-' + month + '-' + day;
+            tanggalInput.setAttribute('max', maxDate);
+            var tanggalInputs = document.querySelectorAll('input[id^="tanggal_"]');
+            tanggalInputs.forEach(function(input) {
+                input.setAttribute('max', maxDate);
+            });
+        </script>
+
     <?php endforeach ?>
-
-
 </div>
 <script>
-    var table = $('#example1').DataTable();
-    new $.fn.dataTable.Buttons(table, {
-        buttons: [
-            'copy', 'excel', 'pdf'
-        ]
+    var table = $('#example1').DataTable({
+        "pageLength": 31
     });
-    table.buttons().container()
-        .appendTo($('.col-sm-6:eq(0)', table.table().container()));
 </script>
+
 <script>
     $(function() {
         $('#daterange').daterangepicker({
@@ -300,16 +380,5 @@
         });
         table.buttons().container()
             .appendTo($('.col-sm-6:eq(0)', table.table().container()));
-    });
-</script>
-<script>
-    function printData() {
-        window.print();
-    }
-
-    document.addEventListener("keydown", function(event) {
-        if (event.ctrlKey && event.key === "p") {
-            printData(); // Memanggil fungsi cetak data
-        }
     });
 </script>

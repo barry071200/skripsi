@@ -32,12 +32,15 @@ class Pengguna extends CI_Controller
     public function index()
     {
 
-        if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '1') {
+        if ($this->session->userdata('role') == '1') {
             $this->load->model('Pengguna_model');
             $data['user'] = $this->Pengguna_model->ambil()->result_array();
             $data['layout'] = 'pengguna/index';
             $data['judul'] = 'Data User';
             $this->load->view('template', $data);
+        } else {
+            session_destroy();
+            redirect('login/index');
         }
     }
     public function clear_flash_data()
@@ -48,7 +51,7 @@ class Pengguna extends CI_Controller
 
     public function tambah()
     {
-        if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '1') {
+        if ($this->session->userdata('role') == '1') {
             $this->load->model('Pengguna_model');
             $data = array();
             $post = $this->input->post();

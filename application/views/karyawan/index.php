@@ -86,9 +86,10 @@
                 <th>No Telpon</th>
                 <th>Tanggal Lahir</th>
                 <th>jenis kelamin</th>
+                <th>Premi</th>
 
-                <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?><th>Action</th><?php } ?>
-                <?php if ($this->session->userdata('role') != '4') { ?><th>TIMESHEET</th><?php } ?>
+                <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?><th class="action-column">Action</th><?php } ?>
+                <?php if ($this->session->userdata('role') != '4') { ?><th class="timesheet-column">TIMESHEET</th><?php } ?>
 
             </tr>
         </thead>
@@ -102,15 +103,16 @@
                     <td><?php echo $dt['no_telpon']; ?></td>
                     <td><?php echo $dt['tgl_lahir']; ?></td>
                     <td><?php echo $dt['jenis_kelamin']; ?></td>
+                    <td><?php echo number_format($dt['premi'], 0, ',', '.'); ?></td>
 
                     <?php if ($this->session->userdata('role') == '4' or $this->session->userdata('role') == '1') { ?>
-                        <td>
+                        <td class="action-column">
                             <a class="btn btn-warning" data-toggle="modal" data-target="#ubahkaryawan<?php echo $dt['id_karyawan']; ?>">Edit</a>
                             <a class="btn btn-danger btn-delete" href="<?php echo site_url("karyawan/delete") . "/" . $dt['id_karyawan']; ?>">Hapus<span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     <?php } ?>
                     <?php if ($this->session->userdata('role') != '4') { ?>
-                        <td> <a class="btn btn-success" href="<?php echo site_url("karyawan/sheet") . "/" . $dt['id_karyawan']; ?>">SHEET</a></td>
+                        <td class="timesheet-column"> <a class="btn btn-success" href="<?php echo site_url("karyawan/sheet") . "/" . $dt['id_karyawan']; ?>">SHEET</a></td>
                     <?php } ?>
                 </tr>
             <?php endforeach ?>
@@ -172,6 +174,8 @@
                                 <option value="Laki-Laki">Laki-Laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
+                            <label for="premi">Premi</label>
+                            <input type="number" required class="form-control" id="premi" name="premi" placeholder="Masukan Premi Operator Per jam">
 
                     </div>
                     <div class="modal-footer">
@@ -211,6 +215,8 @@
                                     <option value="Laki-Laki" <?php if ($dt['jenis_kelamin'] == 'laki-Laki') echo 'selected'; ?>>Laki-Laki</option>
                                     <option value="Perempuan" <?php if ($dt['jenis_kelamin'] == 'Perempuan') echo 'selected'; ?>>Perempuan</option>
                                 </select>
+                                <label for="premi">Premi</label>
+                                <input type="number" required class="form-control" id="premi" name="premi" value="<?php echo $dt['premi']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -227,18 +233,50 @@
 
 </div>
 <script>
-    $(document).ready(function() {
-        $('#example1').DataTable();
-    });
-</script>
-<script>
     function printData() {
-        window.print();
-    }
-
-    document.addEventListener("keydown", function(event) {
-        if (event.ctrlKey && event.key === "p") {
-            printData(); // Memanggil fungsi cetak data
+        var table = document.getElementById('example1');
+        var actionColumn = table.querySelectorAll(".timesheet-column");
+        for (var i = 0; i < actionColumn.length; i++) {
+            actionColumn[i].style.display = "none";
         }
+        var actionColumn = table.querySelectorAll(".action-column");
+        for (var i = 0; i < actionColumn.length; i++) {
+            actionColumn[i].style.display = "none";
+        }
+
+        var jumlahKaryawan = table.rows.length - 1;
+        var jumlahLakiLaki = 0;
+        var jumlahPerempuan = 0;
+        for (var i = 1; i < table.rows.length; i++) {
+            var jenisKelamin = table.rows[i].cells[5].innerHTML.trim();
+            if (jenisKelamin.toLowerCase() === "laki-laki") {
+                jumlahLakiLaki++;
+            } else if (jenisKelamin.toLowerCase() === "perempuan") {
+                jumlahPerempuan++;
+            }
+        }
+
+        var tableData = table.outerHTML;
+        var printPreview = document.createElement('div');
+        printPreview.innerHTML = '<style>body { font-size: 12px; }</style>' +
+            '<div class="d-flex justify-content-between">' +
+            '<h1>PT Bumi Barito Minieral</h1>' +
+            '<h1 class="text-right">Daftar Karyawan</h1>' +
+            '</div>' +
+            '<table>' + tableData + '</table>' +
+            '<p>Jumlah Karyawan: ' + jumlahKaryawan + '</p>' +
+            '<p>Jumlah Laki-Laki: ' + jumlahLakiLaki + '</p>' +
+            '<p>Jumlah Perempuan: ' + jumlahPerempuan + '</p>';
+
+        document.body.innerHTML = printPreview.innerHTML;
+        window.print();
+        location.reload();
+    }
+</script>
+
+
+<script>
+    var table = $('#example1').DataTable({
+        "pageLength": 25
     });
 </script>

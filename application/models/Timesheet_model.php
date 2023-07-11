@@ -32,12 +32,15 @@ class Timesheet_model extends CI_Model
   // ------------------------------------------------------------------------
   public function ambil()
   {
+
     $this->db->select('*');
-    $this->db->from('timesheet, unit');
-    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
-    $this->db->order_by('tanggal', 'dsc');
-    return $this->db->get('');
+    $this->db->from('timesheet');
+    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan', 'left');
+    $this->db->join('unit', 'unit.id_unit = timesheet.id_unit', 'left');
+    $this->db->order_by('tanggal', 'desc');
+    return $this->db->get();
   }
+
   public function sumharga($id)
   {
     $this->db->from('timesheet, unit');

@@ -6,9 +6,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <div class="card-body">
-
-    <br>
-    <br>
     <div style="display: flex; align-items: center;">
         <button type="button" onclick="printData()" style="margin-right: 10px;" class="btn btn-success">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
@@ -17,6 +14,8 @@
             </svg>
             Print
         </button>
+        <label for="daterange" style="margin-right: 10px;">Filter tanggal:</label>
+        <input type="#date" id="daterange" class="form-control" placeholder="Masukkan tanggal" style="width: 220px;">
     </div>
     <br>
 
@@ -35,8 +34,6 @@
                 <th>TOTAL</th>
                 <th>KETERANGAN</th>
                 <th>KONFIRMASI</th>
-
-
             </tr>
         </thead>
         <tbody>
@@ -49,13 +46,25 @@
                     <td><?php echo $dt['tanggal']; ?></td>
                     <td><?php echo $dt['hm_awal']; ?></td>
                     <td><?php echo $dt['hm_akhir']; ?></td>
-                    <td><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?></td>
+                    <td class="jam-kerja"><?php echo $dt['hm_akhir'] - $dt['hm_awal']; ?></td>
                     <td>Rp <?php echo number_format($dt['harga'], 0, ',', '.'); ?></td>
-                    <td>Rp <?php echo number_format($dt['harga'] * ($dt['hm_akhir'] - $dt['hm_awal']), 0, ',', '.'); ?></td>
+                    <td class="total-sewa">Rp <?php echo number_format($dt['harga'] * ($dt['hm_akhir'] - $dt['hm_awal']), 0, ',', '.'); ?></td>
                     <td><?php echo $dt['keterangan']; ?></td>
-                    <td><?php echo $dt['konfirmasi']; ?></td>
-
-
+                    <td class="konfirmasi-column">
+                        <?php if ($dt['konfirmasi'] === 'DITERIMA') : ?>
+                            <span class="badge bg-green">
+                                <?php echo $dt['konfirmasi']; ?>
+                            </span>
+                        <?php elseif ($dt['konfirmasi'] === 'DITOLAK') : ?>
+                            <span class="badge bg-warning">
+                                <?php echo $dt['konfirmasi']; ?>
+                            </span>
+                        <?php else : ?>
+                            <span class="badge bg-danger">
+                                Belum Terkonfirmasi
+                            </span>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach ?>
         <tfoot>
@@ -69,10 +78,9 @@
                     <th></th>
                     <th></th>
                     <th>:</th>
-                    <th>Rp <?php if ($dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))'] != NULL) echo number_format($dt['sum(unit.harga*(timesheet.hm_akhir-timesheet.hm_awal))'], 0, ',', '.'); ?></th>
+                    <th>Rp </th>
                     <th></th>
                     <th></th>
-
                 </tr>
             <?php endforeach ?>
         </tfoot>
@@ -80,31 +88,86 @@
 
 </div>
 <script>
-    var table = $('#example1').DataTable();
-
-    new $.fn.dataTable.Buttons(table, {
-        buttons: [
-            'copy', 'excel', 'pdf'
-        ]
+    var table = $('#example1').DataTable({
+        "pageLength": 32 // Mengatur jumlah entri per halaman menjadi 25
     });
-
-    table.buttons().container()
-        .appendTo($('.col-sm-6:eq(0)', table.table().container()));
 </script>
-
 <script>
-    $(document).ready(function() {
-        $('#example1').DataTable();
+    $(function() {
+        $('#daterange').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+            table.draw();
+        });
+        $('#daterange').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+            table.draw();
+        });
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = moment($('#daterange').val().split(' - ')[0], 'YYYY-MM-DD');
+                var max = moment($('#daterange').val().split(' - ')[1], 'YYYY-MM-DD');
+                var date = moment(data[3], 'YYYY-MM-DD');
+                if ($('#daterange').val() === '') {
+                    return true;
+                }
+                if (min <= date && date <= max) {
+                    return true;
+                }
+                return false;
+            }
+        );
+        $('#daterange').keyup(function() {
+            table.draw();
+        });
+        table.buttons().container()
+            .appendTo($('.col-sm-6:eq(0)', table.table().container()));
     });
 </script>
 <script>
     function printData() {
-        window.print();
-    }
-
-    document.addEventListener("keydown", function(event) {
-        if (event.ctrlKey && event.key === "p") {
-            printData(); // Memanggil fungsi cetak data
+        var table = document.getElementById('example1');
+        var actionColumn = table.querySelectorAll(".action-column");
+        for (var i = 0; i < actionColumn.length; i++) {
+            actionColumn[i].style.display = "none";
         }
-    });
+        var tableData = table.outerHTML;
+        var totalJam = 0;
+        var jamFields = table.querySelectorAll('.jam-kerja');
+        for (var i = 0; i < jamFields.length; i++) {
+            var jamText = jamFields[i].textContent;
+            var jam = parseInt(jamText);
+            if (!isNaN(jam)) {
+                totalJam += jam;
+            }
+        }
+        var tableData = table.outerHTML;
+        var totalsewa = 0;
+        var totalFields = table.querySelectorAll('.total-sewa');
+        for (var i = 0; i < totalFields.length; i++) {
+            var totalText = totalFields[i].textContent.replace(/[^0-9]/g, '');
+            var total = parseInt(totalText);
+            if (!isNaN(total)) {
+                totalsewa += total;
+            }
+        }
+
+
+        var printPreview = document.createElement('div');
+        printPreview.innerHTML = '<style>body { font-size: 12px; }</style>' +
+            '<div class="d-flex justify-content-between">' +
+            '<h1>PT Bumi Barito Minieral</h1>' +
+            '<h1 class="text-right">Timesheet</h1>' +
+            '</div>' +
+            '<table>' + tableData + '</table>' +
+            '<p>Total Jam Kerja: ' + totalJam + ' jam</p>' + '<p>Total Biaya Sewa: Rp ' + totalsewa.toLocaleString() + '</p>';
+        document.body.innerHTML = printPreview.innerHTML;
+        window.print();
+        location.reload();
+    }
 </script>

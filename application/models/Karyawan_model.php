@@ -36,6 +36,7 @@ class Karyawan_model extends CI_Model
     $this->db->from('karyawan');
     return $this->db->get('');
   }
+
   public function tambah($data)
   {
     $tabel = "karyawan";
@@ -54,10 +55,11 @@ class Karyawan_model extends CI_Model
   public function sheet($id)
   {
     $this->db->select('*');
-    $this->db->from('timesheet, unit');
-    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
-    $this->db->where('karyawan.id_karyawan=', $id);
-    return $this->db->get('');
+    $this->db->from('timesheet');
+    $this->db->join('unit', 'unit.id_unit = timesheet.id_unit', 'left');
+    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan', 'left');
+    $this->db->where('karyawan.id_karyawan', $id);
+    return $this->db->get();
   }
 
 

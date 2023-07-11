@@ -52,10 +52,11 @@ class Unit_model extends CI_Model
   public function sheet($id)
   {
     $this->db->select('*');
-    $this->db->from('timesheet, unit');
-    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
-    $this->db->where('unit.id_unit=', $id);
-    return $this->db->get('');
+    $this->db->from('timesheet');
+    $this->db->join('unit', 'unit.id_unit = timesheet.id_unit', 'left');
+    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan', 'left');
+    $this->db->where('unit.id_unit', $id);
+    return $this->db->get();
   }
 
 

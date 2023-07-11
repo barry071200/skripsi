@@ -31,7 +31,6 @@ class Unit extends CI_Controller
 
   public function index()
   {
-
     if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4' or $this->session->userdata('role') == '5' or $this->session->userdata('role') == '3') {
       $this->load->model('Unit_model');
       $data['unit'] = $this->Unit_model->ambil()->result_array();
@@ -78,7 +77,7 @@ class Unit extends CI_Controller
   }
   public function delete($id)
   {
-    if ($this->session->userdata('role') == '1') {
+    if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '4') {
       $this->load->model('Unit_model');
       $this->Unit_model->hapus_data($id);
       redirect('unit/index');
@@ -90,8 +89,6 @@ class Unit extends CI_Controller
     $this->load->model('Timesheet_model');
     $data['unit'] = $this->unit_model->sheet($id)->result_array();
     $data['sum'] = $this->Timesheet_model->sumharga($id)->result_array();
-    //var_dump($data['sum']);
-    //die;
     $data['layout'] = 'unit/Laporan';
     $data['judul'] = 'Data Timesheet';
     $this->load->view('template', $data);

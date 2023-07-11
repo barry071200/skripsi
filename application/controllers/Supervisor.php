@@ -39,6 +39,7 @@ class Supervisor extends CI_Controller
       $data['judul'] = 'Data Timesheet';
       $this->load->view('template', $data);
     } else {
+      session_destroy();
       redirect('login/index');
     }
   }
