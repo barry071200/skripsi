@@ -19,28 +19,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Timesheet_model extends CI_Model
 {
 
-  // ------------------------------------------------------------------------
-
   public function __construct()
   {
     parent::__construct();
   }
 
-  // ------------------------------------------------------------------------
-
-
-  // ------------------------------------------------------------------------
   public function ambil()
   {
 
+    $currentYear = date('Y');
     $this->db->select('*');
     $this->db->from('timesheet');
     $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan', 'left');
     $this->db->join('unit', 'unit.id_unit = timesheet.id_unit', 'left');
+    $this->db->where("YEAR(tanggal) =", $currentYear);
     $this->db->order_by('tanggal', 'desc');
     return $this->db->get();
   }
+  public function ditolak()
+  {
 
+    $currentYear = date('Y');
+    $this->db->select('*');
+    $this->db->from('timesheet');
+    $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan', 'left');
+    $this->db->join('unit', 'unit.id_unit = timesheet.id_unit', 'left');
+    $this->db->where("YEAR(tanggal) =", $currentYear);
+    $this->db->where('timesheet.konfirmasi', 'DITOLAK');
+    $this->db->order_by('tanggal', 'desc');
+    return $this->db->get();
+  }
   public function sumharga($id)
   {
     $this->db->from('timesheet, unit');
@@ -86,16 +94,4 @@ class Timesheet_model extends CI_Model
     $this->db->where('id_timesheet', $id);
     $this->db->update('timesheet', $data);
   }
-
-
-
-
-
-
-
-  // ------------------------------------------------------------------------
-
 }
-
-/* End of file Timesheet_model.php */
-/* Location: ./application/models/Timesheet_model.php */

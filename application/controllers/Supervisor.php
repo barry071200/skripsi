@@ -43,12 +43,54 @@ class Supervisor extends CI_Controller
       redirect('login/index');
     }
   }
+  public function ditolak()
+  {
+    if ($this->session->userdata('role') == '3') {
+      $this->load->model('Supervisor_model');
+      $data['timesheet'] = $this->Supervisor_model->ditolak()->result_array();
+      $data['layout'] = 'supervisor/ditolak';
+      $data['judul'] = 'Data Timesheet Yang DITOLAK';
+      $this->load->view('template', $data);
+    } else {
+      session_destroy();
+      redirect('login/index');
+    }
+  }
+  public function kosong()
+  {
+    if ($this->session->userdata('role') == '3') {
+      $this->load->model('Supervisor_model');
+      $data['timesheet'] = $this->Supervisor_model->kosong()->result_array();
+      $data['layout'] = 'supervisor/belum';
+      $data['judul'] = 'Data Timesheet';
+      $this->load->view('template', $data);
+    } else {
+      session_destroy();
+      redirect('login/index');
+    }
+  }
+  public function tolak($id, $valid)
+  {
+    if ($this->session->userdata('role') == '3') {
+      $this->load->model('Supervisor_model');
+      $this->Supervisor_model->valid($id, $valid);
+      redirect('supervisor/ditolak');
+    }
+  }
   public function cek($id, $valid)
   {
     if ($this->session->userdata('role') == '3') {
       $this->load->model('Supervisor_model');
       $this->Supervisor_model->valid($id, $valid);
       redirect('supervisor/index');
+    }
+  }
+  public function belum($id, $valid)
+  {
+    if ($this->session->userdata('role') == '3') {
+      $this->load->model('Supervisor_model');
+      $this->Supervisor_model->valid($id, $valid);
+      redirect('supervisor/kosong');
     }
   }
 }

@@ -38,6 +38,24 @@ class Supervisor_model extends CI_Model
         $this->db->order_by('tanggal', 'desc');
         return $this->db->get('');
     }
+    public function ditolak()
+    {
+        $this->db->select('*');
+        $this->db->from('timesheet, unit');
+        $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
+        $this->db->where('timesheet.konfirmasi', 'DITOLAK');
+        $this->db->order_by('tanggal', 'desc');
+        return $this->db->get('');
+    }
+    public function kosong()
+    {
+        $this->db->select('*');
+        $this->db->from('timesheet, unit');
+        $this->db->join('karyawan', 'timesheet.id_karyawan = karyawan.id_karyawan AND unit.id_unit = timesheet.id_unit');
+        $this->db->where('timesheet.konfirmasi', '');
+        $this->db->order_by('tanggal', 'desc');
+        return $this->db->get('');
+    }
 
     public function valid($id, $valid)
     {

@@ -47,7 +47,7 @@
 							<div class="small-box bg-warning">
 							<?php } ?>
 							<?php if ($this->session->userdata('role') == '5') { ?>
-								<div class="small-box bg-danger">
+								<div class="small-box bg-warning">
 								<?php } ?>
 								<div class="inner">
 									<h3><?php echo $jumlah; ?></h3>
@@ -58,34 +58,18 @@
 								</div>
 								<?php if ($this->session->userdata('role') != '2') { ?>
 									<?php if ($this->session->userdata('role') == '3') { ?>
-										<a href="<?php echo site_url('supervisor') ?>" class="small-box-footer" onclick="openSupervisorView()">More info <i class="fas fa-arrow-circle-right"></i></a>
+										<a href="<?php echo site_url('supervisor/ditolak') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 									<?php } ?>
-
-									<script>
-										function openSupervisorView() {
-											// Membuka view supervisor
-											var supervisorUrl = "<?php echo site_url('supervisor') ?>";
-											window.open(supervisorUrl);
-
-											// Menunggu 500ms sebelum mengatur filter pencarian datatable
-											setTimeout(function() {
-												var dataTable = $('#example1').DataTable();
-												dataTable.search('DITOLAK').draw();
-											}, 500);
-										}
-									</script>
-
 									<?php if ($this->session->userdata('role') != '3') { ?>
-										<a href="<?php echo site_url('timesheet') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+										<a href="<?php echo site_url('timesheet/ditolak') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 									<?php } ?>
 								<?php } ?>
 								</div>
 							</div>
 						<?php } ?>
-
 						<?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '2' or $this->session->userdata('role') == '5') { ?>
 							<div class="col-lg-3 col-md-6 col-sm-6">
-								<div class="small-box bg-warning">
+								<div class="small-box bg-danger">
 									<div class="inner">
 										<h3><?php echo $timesheet ?></h3>
 										<p>Jumlah Timesheet</p>
@@ -104,10 +88,9 @@
 								</div>
 							</div>
 						<?php } ?>
-
 						<?php if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '2') { ?>
 							<div class="col-lg-3 col-md-6 col-sm-6">
-								<div class="small-box bg-danger">
+								<div class="small-box bg-warning">
 									<div class="inner">
 										<?php foreach ($jam as $dt) : ?>
 											<h3><?php echo $dt['jam']; ?></h3>
@@ -136,7 +119,7 @@
 									</div>
 									<?php if ($this->session->userdata('role') != '2') { ?>
 										<?php if ($this->session->userdata('role') == '3') { ?>
-											<a href="<?php echo site_url('supervisor') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+											<a href="<?php echo site_url('supervisor/kosong') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 										<?php } ?>
 										<?php if ($this->session->userdata('role') != '3') { ?>
 											<a href="<?php echo site_url('timesheet') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
@@ -276,7 +259,8 @@
 						<?php echo $data['percentage']; ?>,
 					<?php endforeach; ?>
 				],
-				backgroundColor: ['blue', 'pink'],
+				backgroundColor: ['blue', 'rgb(250,100,120)'],
+
 			}]
 		};
 

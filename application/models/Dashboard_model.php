@@ -40,7 +40,12 @@ class Dashboard_model extends CI_Model
   }
   public function counttimesheet()
   {
-    return $this->db->count_all('timesheet');
+    $currentYear = date('Y');
+
+    $this->db->where("YEAR(tanggal) = $currentYear");
+    $count = $this->db->count_all_results('timesheet');
+
+    return $count;
   }
   public function countjam()
   {

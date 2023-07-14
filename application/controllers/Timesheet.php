@@ -46,6 +46,21 @@ class Timesheet extends CI_Controller
       redirect('login/index');
     }
   }
+  public function ditolak()
+  {
+    if ($this->session->userdata('role') == '1' or $this->session->userdata('role') == '5') {
+      $this->load->model('Timesheet_model');
+      $data['timesheet'] = $this->Timesheet_model->ditolak()->result_array();
+      $data['unit'] = $this->Timesheet_model->unit()->result();
+      $data['karyawan'] = $this->Timesheet_model->karyawan()->result();
+      $data['layout'] = 'timesheet/ditolak';
+      $data['judul'] = 'Data Timesheet';
+      $this->load->view('template', $data);
+    } else {
+      redirect('login/index');
+    }
+  }
+
 
   public function tambah()
   {
